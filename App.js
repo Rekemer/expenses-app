@@ -13,6 +13,9 @@ const handleNumberInput = (num) => {
         setDisplayValue(displayValue + num);
     }
   };
+const handleCatergory = (category) => {
+    return 'category'
+}
   // State variables
   const [displayValue, setDisplayValue] = useState('0');
   const [operator, setOperator] = useState(null);
@@ -60,7 +63,11 @@ const handleNumberInput = (num) => {
                    <Text style={styles.displayText}>
                        {displayValue}
                    </Text>
+                   
         </View>
+        <TouchableOpacity style={styles.buttonCategory}>
+                        <Text style={styles.clearButtonText}>PickCategory</Text>
+         </TouchableOpacity>
         <View style={styles.buttonContainer}>
                    <View style={styles.row}>
                        <TouchableOpacity
@@ -209,7 +216,12 @@ const styles = StyleSheet.create({
       flex: 2,
       //justifyContent: 'flex-end',
       //alignItems: 'flex-end',
-      padding: 20,
+      padding: 10,
+      borderColor : 'red',
+      borderWidth : 2,
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+     // gap: 10,
   },
   c: {
     flex: 2,
@@ -219,20 +231,27 @@ const styles = StyleSheet.create({
   displayText: {
       fontSize: 48,
       color: '#333',
+      
   },
   displayDate: {
     fontSize: 28,
     color: '#333',
+    borderColor : 'red',
+    borderWidth : 2,
 },
   buttonContainer: {
       flex: 3,
       width: '80%',
+      borderColor : 'red',
+      borderWidth : 2,
   },
   row: {
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'space-between',
       marginBottom: 10,
+      borderColor : 'blue',
+      borderWidth : 2,
   },
   button: {
       flex: 1,
@@ -243,6 +262,16 @@ const styles = StyleSheet.create({
       elevation: 3,
       margin: 2,
       padding: 15,
+  },
+  buttonCategory:
+  {
+    borderRadius: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#f0f0f0',
+    marginTop: 10,
+    elevation: 3,
+    width: '80%',
   },
   buttonText: {
       fontSize: 34,
@@ -282,6 +311,8 @@ const styles = StyleSheet.create({
       marginTop: 10,
       elevation: 3,
       padding: 10,
+      borderColor : 'red',
+      borderWidth : 2,
   },
   clearButtonText: {
       fontSize: 24,
