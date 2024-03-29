@@ -4,8 +4,42 @@ import { StyleSheet, Text, View, TouchableOpacity }
 
     import { NavigationContainer } from '@react-navigation/native';
     import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+
+function CategoryScreen({ route, navigation }){
+  const { displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear } = route.params;
+return (<View style={styles.container}>
+  <View style={styles.displayDate}>
+    <Text style={styles.displayText}>{date}</Text>
+  </View>
+  <Display value={displayValue} />
+  <TouchableOpacity style={styles.buttonCategory}>
+    <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Calculator')} >Calculation</Text>
+  </TouchableOpacity>
+  <View style={styles.buttonContainer}>
+
+    <View style={styles.row}>
+      <CategoryButton onPress={() => onNumberInput(7)} text="Category1" />
+      <CategoryButton onPress={() => onNumberInput(8)} text="Category2" />
+      <CategoryButton onPress={() => onNumberInput(9)} text="Category3" />
+    </View>
+    <View style={styles.row}>
+      <CategoryButton onPress={() => onNumberInput(4)} text="Category4" />
+     <CategoryButton onPress={() => onNumberInput(5)} text="Category5" />
+      <CategoryButton onPress={() => onNumberInput(6)} text="Category6" />
+    </View>
+    <View style={styles.row}>
+      <CategoryButton onPress={() => onNumberInput(4)} text="Category4" />
+     <CategoryButton onPress={() => onNumberInput(5)} text="Category5" />
+      <CategoryButton onPress={() => onNumberInput(6)} text="Category6" />
+    </View>
+    
+  </View>
+</View>)
+} 
 function HomeScreen({ route, navigation }) {
   const { displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear } = route.params;
+  console.log(onNumberInput);
   return (
        <View style={styles.container}>
             <View style={styles.displayDate}>
@@ -13,12 +47,12 @@ function HomeScreen({ route, navigation }) {
             </View>
             <Display value={displayValue} />
             <TouchableOpacity style={styles.buttonCategory}>
-              <Text style={styles.clearButtonText}>PickCategory</Text>
+              <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Category')} >PickCategory</Text>
             </TouchableOpacity>
             <View style={styles.buttonContainer}>
 
               <View style={styles.row}>
-                <Button onPress={() => onNumberInput(7)} text="7" />
+                <Button onPress={() => {console.log("232");onNumberInput(7);}} text="7" />
                 <Button onPress={() => onNumberInput(8)} text="8" />
                 <Button onPress={() => onNumberInput(9)} text="9" />
                 <OperatorButton onPress={() => onOperatorInput('/')} text="÷" />
@@ -46,19 +80,16 @@ function HomeScreen({ route, navigation }) {
   );
 }
 
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, borderWidth: 2, borderColor: 'red', justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
     const Button = ({ onPress, text }) => (
         <TouchableOpacity style={styles.button} onPress={onPress}>
           <Text style={styles.buttonText}>{text}</Text>
         </TouchableOpacity>
       );
-      
+      const CategoryButton = ({ onPress, text }) => (
+        <TouchableOpacity style={styles.button} onPress={onPress}>
+          <Text style={{ fontSize: 20 }}>{text}</Text>
+        </TouchableOpacity>
+      );
       const OperatorButton = ({ onPress, text }) => (
         <TouchableOpacity style={[styles.button, styles.operatorButton]} onPress={onPress}>
           <Text style={[styles.buttonText, styles.operatorButtonText]}>{text}</Text>
@@ -84,8 +115,8 @@ function SettingsScreen() {
        
           <NavigationContainer>
           <Tab.Navigator>
-              <Tab.Screen name="Home" component={HomeScreen} initialParams = {{ displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear }} />
-              <Tab.Screen name="Settings" component={SettingsScreen} />
+              <Tab.Screen name="Calculator" component={HomeScreen} initialParams = {{ displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear }} />
+              <Tab.Screen name="Category" component={CategoryScreen} initialParams = {{ displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear }} />
           </Tab.Navigator>
           </NavigationContainer>
 
@@ -97,6 +128,7 @@ export default function App() {
 
 // Function to handle number inputs
 const handleNumberInput = (num) => {
+  console.log('handle number input');
     if (displayValue === '0') {
         setDisplayValue(num.toString());
     } else {
@@ -152,7 +184,6 @@ const handleNumberInput = (num) => {
   );
 
 }
-
 // Styles
 const styles = StyleSheet.create({
   container: {
