@@ -2,6 +2,57 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity }
     from 'react-native';
 
+    import { NavigationContainer } from '@react-navigation/native';
+    import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+function HomeScreen({ route, navigation }) {
+  const { displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear } = route.params;
+  return (
+       <View style={styles.container}>
+            <View style={styles.displayDate}>
+              <Text style={styles.displayText}>{date}</Text>
+            </View>
+            <Display value={displayValue} />
+            <TouchableOpacity style={styles.buttonCategory}>
+              <Text style={styles.clearButtonText}>PickCategory</Text>
+            </TouchableOpacity>
+            <View style={styles.buttonContainer}>
+
+              <View style={styles.row}>
+                <Button onPress={() => onNumberInput(7)} text="7" />
+                <Button onPress={() => onNumberInput(8)} text="8" />
+                <Button onPress={() => onNumberInput(9)} text="9" />
+                <OperatorButton onPress={() => onOperatorInput('/')} text="÷" />
+              </View>
+              <View style={styles.row}>
+                <Button onPress={() => onNumberInput(4)} text="4" />
+               <Button onPress={() => onNumberInput(5)} text="5" />
+                <Button onPress={() => onNumberInput(6)} text="6" />
+                <OperatorButton onPress={() => onOperatorInput('*')} text="*" />
+              </View>
+              <View style={styles.row}>
+                <Button onPress={() => onNumberInput(1)} text="1" />
+                <Button onPress={() => onNumberInput(2)} text="2" />
+                <Button onPress={() => onNumberInput(3)} text="3" />
+                <OperatorButton onPress={() => onOperatorInput('-')} text="-" />
+              </View>
+              <View style={styles.row}>
+              <Button onPress={() => onNumberInput(0)} text="0" />
+              <OperatorButton onPress={() => onOperatorInput('+')} text="+" />
+              <OperatorButton onPress={() => onEqual()} text="=" />
+              </View>
+              <ClearButton onPress={() => onClear()} text="C" />
+            </View>
+          </View>
+  );
+}
+
+function SettingsScreen() {
+  return (
+    <View style={{ flex: 1, borderWidth: 2, borderColor: 'red', justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Settings!</Text>
+    </View>
+  );
+}
     const Button = ({ onPress, text }) => (
         <TouchableOpacity style={styles.button} onPress={onPress}>
           <Text style={styles.buttonText}>{text}</Text>
@@ -28,43 +79,17 @@ import { StyleSheet, Text, View, TouchableOpacity }
         </TouchableOpacity>
       );
     function Calculator({ displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear }) {
+      const Tab = createBottomTabNavigator();
         return (
-          <View style={styles.container}>
-            <View style={styles.displayDate}>
-              <Text style={styles.displayText}>{date}</Text>
-            </View>
-            <Display value={displayValue} />
-            <TouchableOpacity style={styles.buttonCategory}>
-              <Text style={styles.clearButtonText}>PickCategory</Text>
-            </TouchableOpacity>
-            <View style={styles.buttonContainer}>
-                
-              <View style={styles.row}>
-                <Button onPress={() => onNumberInput(7)} text="7" />
-                <Button onPress={() => onNumberInput(8)} text="8" />
-                <Button onPress={() => onNumberInput(9)} text="9" />
-                <OperatorButton onPress={() => onOperatorInput('/')} text="÷" />
-              </View>
-              <View style={styles.row}>
-                <Button onPress={() => onNumberInput(4)} text="4" />
-                <Button onPress={() => onNumberInput(5)} text="5" />
-                <Button onPress={() => onNumberInput(6)} text="6" />
-                <OperatorButton onPress={() => onOperatorInput('*')} text="*" />
-              </View>
-              <View style={styles.row}>
-                <Button onPress={() => onNumberInput(1)} text="1" />
-                <Button onPress={() => onNumberInput(2)} text="2" />
-                <Button onPress={() => onNumberInput(3)} text="3" />
-                <OperatorButton onPress={() => onOperatorInput('-')} text="-" />
-              </View>
-              <View style={styles.row}>
-              <Button onPress={() => onNumberInput(0)} text="0" />
-              <OperatorButton onPress={() => onOperatorInput('+')} text="+" />
-              <OperatorButton onPress={() => onEqual()} text="=" />
-              </View>
-              <ClearButton onPress={() => onClear()} text="C" />
-            </View>
-          </View>
+       
+          <NavigationContainer>
+          <Tab.Navigator>
+              <Tab.Screen name="Home" component={HomeScreen} initialParams = {{ displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear }} />
+              <Tab.Screen name="Settings" component={SettingsScreen} />
+          </Tab.Navigator>
+          </NavigationContainer>
+
+       
         );
       }
       
@@ -114,154 +139,6 @@ const handleNumberInput = (num) => {
         setOperator(null);
         setFirstValue('');
     };
-//   return (
-//     <View style={styles.container}>
-//         <View style={styles.displayDate}>
-//                    <Text style={styles.displayDate}>
-//                        {date}
-//                    </Text>
-//         </View>
-//         <View style={styles.displayContainer}>
-//                    <Text style={styles.displayText}>
-//                        {displayValue}
-//                    </Text>
-                   
-//         </View>
-//         <TouchableOpacity style={styles.buttonCategory}>
-//                         <Text style={styles.clearButtonText}>PickCategory</Text>
-//          </TouchableOpacity>
-//         <View style={styles.buttonContainer}>
-//                    <View style={styles.row}>
-//                        <TouchableOpacity
-//                            style={styles.button}
-//                            onPress={() => handleNumberInput(7)}
-//                        >
-//                            <Text style={styles.buttonText}>7</Text>
-//                        </TouchableOpacity>
-//                        <TouchableOpacity
-//                            style={styles.button}
-//                            onPress={() => handleNumberInput(8)}
-//                        >
-//                            <Text style={styles.buttonText}>8</Text>
-//                        </TouchableOpacity>
-//                        <TouchableOpacity
-//                            style={styles.button}
-//                            onPress={() => handleNumberInput(9)}
-//                        >
-//                            <Text style={styles.buttonText}>9</Text>
-//                        </TouchableOpacity>
-//                        <TouchableOpacity
-//                            style={[styles.button, styles.operatorButton]}
-//                            onPress={() => handleOperatorInput('/')}
-//                        >
-//                            <Text style={[
-//                                styles.buttonText,
-//                                styles.operatorButtonText
-//                            ]}>
-//                                ÷
-//                            </Text>
-//                        </TouchableOpacity>
-//                    </View>
-//                    <View style={styles.row}>
-//                        <TouchableOpacity
-//                            style={styles.button}
-//                            onPress={() => handleNumberInput(4)}
-//                        >
-//                            <Text style={styles.buttonText}>4</Text>
-//                        </TouchableOpacity>
-//                        <TouchableOpacity
-//                            style={styles.button}
-//                            onPress={() => handleNumberInput(5)}
-//                        >
-//                            <Text style={styles.buttonText}>5</Text>
-//                        </TouchableOpacity>
-//                        <TouchableOpacity
-//                            style={styles.button}
-//                            onPress={() => handleNumberInput(6)}
-//                        >
-//                            <Text style={styles.buttonText}>6</Text>
-//                        </TouchableOpacity>
-//                        <TouchableOpacity
-//                            style={[styles.button, styles.operatorButton]}
-//                            onPress={() => handleOperatorInput('*')}
-//                        >
-//                            <Text style={[
-//                                styles.buttonText,
-//                                styles.operatorButtonText
-//                            ]}>
-//                                ×
-//                            </Text>
-//                        </TouchableOpacity>
-//                    </View>
-//                    <View style={styles.row}>
-//                        <TouchableOpacity
-//                            style={styles.button}
-//                            onPress={() => handleNumberInput(1)}
-//                        >
-//                            <Text style={styles.buttonText}>1</Text>
-//                        </TouchableOpacity>
-//                        <TouchableOpacity
-//                            style={styles.button}
-//                            onPress={() => handleNumberInput(2)}
-//                        >
-//                            <Text style={styles.buttonText}>2</Text>
-//                        </TouchableOpacity>
-//                        <TouchableOpacity
-//                            style={styles.button}
-//                            onPress={() => handleNumberInput(3)}
-//                        >
-//                            <Text style={styles.buttonText}>3</Text>
-//                        </TouchableOpacity>
-//                        <TouchableOpacity
-//                            style={[styles.button, styles.operatorButton]}
-//                            onPress={() => handleOperatorInput('-')}
-//                        >
-//                            <Text style={[
-//                                styles.buttonText,
-//                                styles.operatorButtonText
-//                            ]}>
-//                                −
-//                            </Text>
-//                        </TouchableOpacity>
-//                    </View>
-//                    <View style={styles.row}>
-//                        <TouchableOpacity
-//                            style={[styles.button, styles.zeroButton]}
-//                            onPress={() => handleNumberInput(0)}
-//                        >
-//                            <Text style={[
-//                                styles.buttonText,
-//                                styles.zeroButtonText
-//                            ]}>
-//                                0
-//                            </Text>
-//                        </TouchableOpacity>
-//                        <TouchableOpacity
-//                            style={[styles.button, styles.operatorButton]}
-//                            onPress={() => handleOperatorInput('+')}
-//                        >
-//                            <Text style={[
-//                                styles.buttonText,
-//                                styles.operatorButtonText
-//                            ]}>
-//                                +
-//                            </Text>
-//                        </TouchableOpacity>
-//                        <TouchableOpacity
-//                            style={styles.equalButton}
-//                            onPress={handleEqual}
-//                        >
-//                            <Text style={styles.equalButtonText}>=</Text>
-//                        </TouchableOpacity>
-//                    </View>
-//                    <TouchableOpacity
-//                        style={styles.clearButton}
-//                        onPress={handleClear}>
-//                        <Text style={styles.clearButtonText}>C</Text>
-//                    </TouchableOpacity>
-//         </View>
-//     </View>
-//   );
 
   return (
       <Calculator
@@ -287,7 +164,7 @@ const styles = StyleSheet.create({
       borderWidth : 2
   },
   displayContainer: {
-      flex: 2,
+      flex: 1,
       //justifyContent: 'flex-end',
       //alignItems: 'flex-end',
       padding: 10,
@@ -305,8 +182,8 @@ const styles = StyleSheet.create({
   displayText: {
       fontSize: 48,
       color: '#333',
-      
   },
+
   displayDate: {
     fontSize: 28,
     color: '#333',
@@ -335,7 +212,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       elevation: 3,
       margin: 1,
-      padding: 12,
+      padding: 2,
   },
   buttonCategory:
   {
