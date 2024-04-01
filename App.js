@@ -5,9 +5,20 @@ import { StyleSheet, Text, View, TouchableOpacity }
     import { NavigationContainer } from '@react-navigation/native';
     import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-
+    import {DeviceEventEmitter} from "react-native"
+    import { useCalculator } from './Calculator'; 
+    import { CalculatorProvider } from './Calculator'; // Import CalculatorProvider
 function CategoryScreen({ route, navigation }){
-  const { displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear } = route.params;
+  const {
+    displayValue,
+       date,
+       setDisplayValue,
+       setDate,
+       handleNumberInput,
+       handleOperatorInput,
+       handleEqual,
+       handleClear,
+} = useCalculator(); // Use useCalculator hook to access state and functions
 return (<View style={styles.container}>
   <View style={styles.displayDate}>
     <Text style={styles.displayText}>{date}</Text>
@@ -19,27 +30,36 @@ return (<View style={styles.container}>
   <View style={styles.buttonContainer}>
 
     <View style={styles.row}>
-      <CategoryButton onPress={() => onNumberInput(7)} text="Category1" />
-      <CategoryButton onPress={() => onNumberInput(8)} text="Category2" />
-      <CategoryButton onPress={() => onNumberInput(9)} text="Category3" />
+      <CategoryButton onPress={() => handleNumberInput(7)} text="Category1" />
+      <CategoryButton onPress={() => handleNumberInput(8)} text="Category2" />
+      <CategoryButton onPress={() => handleNumberInput(9)} text="Category3" />
     </View>
     <View style={styles.row}>
-      <CategoryButton onPress={() => onNumberInput(4)} text="Category4" />
-     <CategoryButton onPress={() => onNumberInput(5)} text="Category5" />
-      <CategoryButton onPress={() => onNumberInput(6)} text="Category6" />
+      <CategoryButton onPress={() => handleNumberInput(4)} text="Category4" />
+     <CategoryButton onPress={() => handleNumberInput(5)} text="Category5" />
+      <CategoryButton onPress={() => handleNumberInput(6)} text="Category6" />
     </View>
     <View style={styles.row}>
-      <CategoryButton onPress={() => onNumberInput(4)} text="Category4" />
-     <CategoryButton onPress={() => onNumberInput(5)} text="Category5" />
-      <CategoryButton onPress={() => onNumberInput(6)} text="Category6" />
+      <CategoryButton onPress={() => handleNumberInput(4)} text="Category4" />
+     <CategoryButton onPress={() => handleNumberInput(5)} text="Category5" />
+      <CategoryButton onPress={() => handleNumberInput(6)} text="Category6" />
     </View>
     
   </View>
 </View>)
 } 
 function HomeScreen({ route, navigation }) {
-  const { displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear } = route.params;
-  console.log(onNumberInput);
+  const {
+      displayValue,
+         date,
+         setDisplayValue,
+         setDate,
+         handleNumberInput,
+         handleOperatorInput,
+         handleEqual,
+         handleClear,
+  } = useCalculator(); // Use useCalculator hook to access state and functions
+  console.log("diplay" + displayValue);
   return (
        <View style={styles.container}>
             <View style={styles.displayDate}>
@@ -47,34 +67,34 @@ function HomeScreen({ route, navigation }) {
             </View>
             <Display value={displayValue} />
             <TouchableOpacity style={styles.buttonCategory}>
-              <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Category')} >PickCategory</Text>
+              <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Category')} >Pick Category</Text>
             </TouchableOpacity>
             <View style={styles.buttonContainer}>
 
               <View style={styles.row}>
-                <Button onPress={() => {console.log("232");onNumberInput(7);}} text="7" />
-                <Button onPress={() => onNumberInput(8)} text="8" />
-                <Button onPress={() => onNumberInput(9)} text="9" />
-                <OperatorButton onPress={() => onOperatorInput('/')} text="÷" />
+                <Button onPress={() => handleNumberInput(7)} text="7" />
+                <Button onPress={() => handleNumberInput(8)} text="8" />
+                <Button onPress={() => handleNumberInput(9)} text="9" />
+                <OperatorButton onPress={() => handleOperatorInput('/')} text="÷" />
               </View>
               <View style={styles.row}>
-                <Button onPress={() => onNumberInput(4)} text="4" />
-               <Button onPress={() => onNumberInput(5)} text="5" />
-                <Button onPress={() => onNumberInput(6)} text="6" />
-                <OperatorButton onPress={() => onOperatorInput('*')} text="*" />
+                <Button onPress={() => handleNumberInput(4)} text="4" />
+               <Button onPress={() => handleNumberInput(5)} text="5" />
+                <Button onPress={() => handleNumberInput(6)} text="6" />
+                <OperatorButton onPress={() => handleOperatorInput('*')} text="*" />
               </View>
               <View style={styles.row}>
-                <Button onPress={() => onNumberInput(1)} text="1" />
-                <Button onPress={() => onNumberInput(2)} text="2" />
-                <Button onPress={() => onNumberInput(3)} text="3" />
-                <OperatorButton onPress={() => onOperatorInput('-')} text="-" />
+                <Button onPress={() => handleNumberInput(1)} text="1" />
+                <Button onPress={() => handleNumberInput(2)} text="2" />
+                <Button onPress={() => handleNumberInput(3)} text="3" />
+                <OperatorButton onPress={() => handleOperatorInput('-')} text="-" />
               </View>
               <View style={styles.row}>
-              <Button onPress={() => onNumberInput(0)} text="0" />
-              <OperatorButton onPress={() => onOperatorInput('+')} text="+" />
-              <OperatorButton onPress={() => onEqual()} text="=" />
+              <Button onPress={() => handleNumberInput(0)} text="0" />
+              <OperatorButton onPress={() => handleOperatorInput('+')} text="+" />
+              <OperatorButton onPress={() => handleEqual()} text="=" />
               </View>
-              <ClearButton onPress={() => onClear()} text="C" />
+              <ClearButton onPress={() => handleClear()} text="C" />
             </View>
           </View>
   );
@@ -109,16 +129,22 @@ function HomeScreen({ route, navigation }) {
             <Text style={styles.clearButtonText}>{text}</Text>
         </TouchableOpacity>
       );
-    function Calculator({ displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear }) {
-      const Tab = createBottomTabNavigator();
+function Calculator() {
+ const Tab = createBottomTabNavigator();
+      
+
+   
+  
         return (
-       
+          <CalculatorProvider>
+
           <NavigationContainer>
           <Tab.Navigator>
-              <Tab.Screen name="Calculator" component={HomeScreen} initialParams = {{ displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear }} />
-              <Tab.Screen name="Category" component={CategoryScreen} initialParams = {{ displayValue, date, onNumberInput, onOperatorInput, onEqual, onClear }} />
+              <Tab.Screen name="Calculator" component={HomeScreen} />
+               <Tab.Screen name="Category" component={CategoryScreen}/> 
           </Tab.Navigator>
           </NavigationContainer>
+          </CalculatorProvider>
 
        
         );
@@ -126,60 +152,8 @@ function HomeScreen({ route, navigation }) {
       
 export default function App() {
 
-// Function to handle number inputs
-const handleNumberInput = (num) => {
-  console.log('handle number input');
-    if (displayValue === '0') {
-        setDisplayValue(num.toString());
-    } else {
-        setDisplayValue(displayValue + num);
-    }
-  };
-  // State variables
-  const [displayValue, setDisplayValue] = useState('0');
-  const [operator, setOperator] = useState(null);
-  const [firstValue, setFirstValue] = useState('');
-  const [date,setDate] = useState('20.02.2020');
-  // Function to handle operator inputs
-  const handleOperatorInput = (operator) => {
-    setOperator(operator);
-    setFirstValue(displayValue);
-    setDisplayValue('0');
-  };
- // Function to handle equal button press
-    const handleEqual = () => {
-        const num1 = parseFloat(firstValue);
-        const num2 = parseFloat(displayValue);
-
-        if (operator === '+') {
-            setDisplayValue((num1 + num2).toString());
-        } else if (operator === '-') {
-            setDisplayValue((num1 - num2).toString());
-        } else if (operator === '*') {
-            setDisplayValue((num1 * num2).toString());
-        } else if (operator === '/') {
-            setDisplayValue((num1 / num2).toString());
-        }
-
-        setOperator(null);
-        setFirstValue('');
-    };
-
-    // Function to handle clear button press
-    const handleClear = () => {
-        setDisplayValue('0');
-        setOperator(null);
-        setFirstValue('');
-    };
-
   return (
       <Calculator
-        displayValue={displayValue}
-        date={date}
-        onNumberInput={handleNumberInput}
-        onOperatorInput={handleOperatorInput}
-        onEqual={handleEqual}
-        onClear={handleClear}
       />
   );
 
