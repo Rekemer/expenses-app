@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity }
+import { StyleSheet, Text, View, TouchableOpacity,Image  }
     from 'react-native';
 
     import { NavigationContainer } from '@react-navigation/native';
@@ -7,7 +7,7 @@ import { StyleSheet, Text, View, TouchableOpacity }
 
     import {DeviceEventEmitter} from "react-native"
     import { useCalculator } from './Calculator'; 
-    import { CalculatorProvider } from './Calculator'; // Import CalculatorProvider
+    import { CalculatorProvider,CATEGORY } from './Calculator'; // Import CalculatorProvider
 function CategoryScreen({ route, navigation }){
   const {
     displayValue,
@@ -16,6 +16,7 @@ function CategoryScreen({ route, navigation }){
        setDate,
        handleNumberInput,
        handleOperatorInput,
+       handleCategoryInput,
        handleEqual,
        handleClear,
 } = useCalculator(); // Use useCalculator hook to access state and functions
@@ -30,11 +31,11 @@ return (<View style={styles.container}>
   <View style={styles.buttonContainer}>
 
     <View style={styles.row}>
-      <CategoryButton onPress={() => handleNumberInput(7)} text="Category1" />
-      <CategoryButton onPress={() => handleNumberInput(8)} text="Category2" />
-      <CategoryButton onPress={() => handleNumberInput(9)} text="Category3" />
+      <CategoryButton onPress={() => handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
+      {/* <CategoryButton onPress={() => handleNumberInput(8)} text="Category2" />
+      <CategoryButton onPress={() => handleNumberInput(9)} text="Category3" /> */}
     </View>
-    <View style={styles.row}>
+    {/* <View style={styles.row}>
       <CategoryButton onPress={() => handleNumberInput(4)} text="Category4" />
      <CategoryButton onPress={() => handleNumberInput(5)} text="Category5" />
       <CategoryButton onPress={() => handleNumberInput(6)} text="Category6" />
@@ -43,7 +44,7 @@ return (<View style={styles.container}>
       <CategoryButton onPress={() => handleNumberInput(4)} text="Category4" />
      <CategoryButton onPress={() => handleNumberInput(5)} text="Category5" />
       <CategoryButton onPress={() => handleNumberInput(6)} text="Category6" />
-    </View>
+    </View> */}
     
   </View>
 </View>)
@@ -105,9 +106,10 @@ function HomeScreen({ route, navigation }) {
           <Text style={styles.buttonText}>{text}</Text>
         </TouchableOpacity>
       );
-      const CategoryButton = ({ onPress, text }) => (
+      const CategoryButton = ({ onPress,image }) => (
         <TouchableOpacity style={styles.button} onPress={onPress}>
-          <Text style={{ fontSize: 20 }}>{text}</Text>
+          <Image source={image.uri} style={styles.image} />
+          <Text style={{ fontSize: 20 }}>{image.text}</Text>
         </TouchableOpacity>
       );
       const OperatorButton = ({ onPress, text }) => (
@@ -258,6 +260,12 @@ const styles = StyleSheet.create({
   equalButtonText: {
       fontSize: 32,
       color: '#fff',
+  },
+  image: {
+    width: 50, // Adjust width as needed
+    height: 50, // Adjust height as needed
+    resizeMode: 'contain', // Adjust resize mode as needed
+    marginBottom: 5, // Adjust margin as needed
   },
   clearButton: {
       borderRadius: 50,

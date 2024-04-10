@@ -1,6 +1,13 @@
 import React, { createContext, useContext, useState } from 'react';
 const CalculatorContext = createContext();
-
+export const CATEGORY = {
+  iceCream: {
+    text: 'ice-Cream', 
+    uri: require('./assets/ice-cream.png')
+  },
+};
+var map= new Map();
+map.set(CATEGORY.iceCream,0);
 export const CalculatorProvider = ({ children }) => {
 
 // State variables
@@ -42,7 +49,12 @@ const handleOperatorInput = (operator) => {
          setDisplayValue(displayValue + num);
      }
     };
-
+    const handleCategoryInput = (category) => {
+      var categoryNumber = map.get(category);
+      categoryNumber += displayValue;
+      console.log( category.text+': '+categoryNumber);
+      handleClear();
+    }
  // Function to handle clear button press
  const handleClear = () => {
      setDisplayValue('0');
@@ -59,6 +71,7 @@ const handleOperatorInput = (operator) => {
          setDate,
          handleNumberInput,
          handleOperatorInput,
+         handleCategoryInput,
          handleEqual,
          handleClear,
        }}
