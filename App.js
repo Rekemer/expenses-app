@@ -31,20 +31,20 @@ return (<View style={styles.container}>
   <View style={styles.buttonContainer}>
 
     <View style={styles.row}>
-      <CategoryButton onPress={() => handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
-      {/* <CategoryButton onPress={() => handleNumberInput(8)} text="Category2" />
-      <CategoryButton onPress={() => handleNumberInput(9)} text="Category3" /> */}
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
     </View>
-    {/* <View style={styles.row}>
-      <CategoryButton onPress={() => handleNumberInput(4)} text="Category4" />
-     <CategoryButton onPress={() => handleNumberInput(5)} text="Category5" />
-      <CategoryButton onPress={() => handleNumberInput(6)} text="Category6" />
+     <View style={styles.row}>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
     </View>
     <View style={styles.row}>
-      <CategoryButton onPress={() => handleNumberInput(4)} text="Category4" />
-     <CategoryButton onPress={() => handleNumberInput(5)} text="Category5" />
-      <CategoryButton onPress={() => handleNumberInput(6)} text="Category6" />
-    </View> */}
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
+    </View> 
     
   </View>
 </View>)
@@ -57,10 +57,12 @@ function HomeScreen({ route, navigation }) {
          setDate,
          handleNumberInput,
          handleOperatorInput,
+         handleCategoryInput,
          handleEqual,
+         handleDot,
          handleClear,
   } = useCalculator(); // Use useCalculator hook to access state and functions
-  console.log("diplay" + displayValue);
+  //console.log("FUCK");
   return (
        <View style={styles.container}>
             <View style={styles.displayDate}>
@@ -94,6 +96,7 @@ function HomeScreen({ route, navigation }) {
               <Button onPress={() => handleNumberInput(0)} text="0" />
               <OperatorButton onPress={() => handleOperatorInput('+')} text="+" />
               <OperatorButton onPress={() => handleEqual()} text="=" />
+              <OperatorButton onPress={() => handleDot()} text="." />
               </View>
               <ClearButton onPress={() => handleClear()} text="C" />
             </View>

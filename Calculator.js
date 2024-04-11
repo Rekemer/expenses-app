@@ -1,4 +1,7 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, 
+  useContext, useState
+ } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const CalculatorContext = createContext();
 export const CATEGORY = {
   iceCream: {
@@ -6,11 +9,12 @@ export const CATEGORY = {
     uri: require('./assets/ice-cream.png')
   },
 };
-var map= new Map();
-map.set(CATEGORY.iceCream,0);
+AsyncStorage.setItem(CATEGORY.iceCream.text,'0');
+
 export const CalculatorProvider = ({ children }) => {
 
-// State variables
+
+  // State variables
 const [displayValue, setDisplayValue] = useState('0');
 const [operator, setOperator] = useState(null);
 const [firstValue, setFirstValue] = useState('');
@@ -42,26 +46,37 @@ const handleOperatorInput = (operator) => {
 
    // Function to handle number inputs
    const handleNumberInput = (num) => {
-    console.log(displayValue);
-    if (displayValue === '0') {
-         setDisplayValue(num.toString());
-     } else {
-         setDisplayValue(displayValue + num);
-     }
+     if (displayValue === '0') {
+       setDisplayValue(num.toString());
+      } else {
+        setDisplayValue(displayValue + num);
+      }
+      console.log('handleNumberInput: ' +  displayValue);
+      console.log('handleNumberInput num: ' +  num);
     };
-    const handleCategoryInput = (category) => {
-      var categoryNumber = map.get(category);
-      categoryNumber += displayValue;
-      console.log( category.text+': '+categoryNumber);
-      handleClear();
+    const handleCategoryInput = async (category) => {
+      try {
+        let categoryNumber = await AsyncStorage.getItem(category.text);
+        categoryNumber = JSON.parse(categoryNumber); 
+        const newNumber = categoryNumber + parseFloat(displayValue);
+        //console.log('new number : ' +newNumber);
+        await AsyncStorage.setItem(category.text, JSON.stringify(newNumber));
+        //console.log(category.text + ': ' + categoryNumber);
+        handleClear();
+    } catch (error) {
+        console.error('Error saving data:', error);
+        // Handle error
     }
+    };
  // Function to handle clear button press
  const handleClear = () => {
      setDisplayValue('0');
      setOperator(null);
      setFirstValue('');
  };
- 
+ const handleDot = () => {
+  setDisplayValue(displayValue+'.');
+ }
    return (
      <CalculatorContext.Provider
        value={{
@@ -73,6 +88,7 @@ const handleOperatorInput = (operator) => {
          handleOperatorInput,
          handleCategoryInput,
          handleEqual,
+         handleDot,
          handleClear,
        }}
      >
