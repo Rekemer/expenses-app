@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,Image  }
     from 'react-native';
-
-    import { NavigationContainer } from '@react-navigation/native';
-    import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
-    import {DeviceEventEmitter} from "react-native"
-    import { useCalculator } from './Calculator'; 
-    import { CalculatorProvider,CATEGORY } from './Calculator'; // Import CalculatorProvider
-function CategoryScreen({ route, navigation }){
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useCalculator } from './Calculator'; 
+import { CalculatorProvider } from './Calculator'; // Import CalculatorProvider
+import { Calendar } from './Calendar';
+import { CATEGORY} from './Categories';
+function ExpenseScreen({  navigation }){
   const {
-    displayValue,
+      displayValue,
        date,
        setDisplayValue,
        setDate,
@@ -21,8 +20,8 @@ function CategoryScreen({ route, navigation }){
        handleClear,
 } = useCalculator(); // Use useCalculator hook to access state and functions
 return (<View style={styles.container}>
-  <View style={styles.displayDate}>
-    <Text style={styles.displayText}>{date}</Text>
+  <View >
+    <Text style={styles.displayDate}>{date}</Text>
   </View>
   <Display value={displayValue} />
   <TouchableOpacity style={styles.buttonCategory}>
@@ -49,7 +48,13 @@ return (<View style={styles.container}>
   </View>
 </View>)
 } 
-function HomeScreen({ route, navigation }) {
+
+function CalendarScreen({navigator})
+{
+  return <Calendar/>
+}
+
+function HomeScreen({ navigation }) {
   const {
       displayValue,
          date,
@@ -65,12 +70,12 @@ function HomeScreen({ route, navigation }) {
   //console.log("FUCK");
   return (
        <View style={styles.container}>
-            <View style={styles.displayDate}>
-              <Text style={styles.displayText}>{date}</Text>
+            <View >
+              <Text style={styles.displayDate}>{date}</Text>
             </View>
             <Display value={displayValue} />
             <TouchableOpacity style={styles.buttonCategory}>
-              <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Category')} >Pick Category</Text>
+              <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Expense')} >Pick Category</Text>
             </TouchableOpacity>
             <View style={styles.buttonContainer}>
 
@@ -146,7 +151,9 @@ function Calculator() {
           <NavigationContainer>
           <Tab.Navigator>
               <Tab.Screen name="Calculator" component={HomeScreen} />
-               <Tab.Screen name="Category" component={CategoryScreen}/> 
+              {/* so tab is not shown */}
+               <Tab.Screen name="Expense" component={ExpenseScreen} options={{ tabBarButton: () => null }}/> 
+                <Tab.Screen name="Calendar" component={CalendarScreen} /> 
           </Tab.Navigator>
           </NavigationContainer>
           </CalculatorProvider>
@@ -265,8 +272,8 @@ const styles = StyleSheet.create({
       color: '#fff',
   },
   image: {
-    width: 50, // Adjust width as needed
-    height: 50, // Adjust height as needed
+    width: 35, // Adjust width as needed
+    height: 35, // Adjust height as needed
     resizeMode: 'contain', // Adjust resize mode as needed
     marginBottom: 5, // Adjust margin as needed
   },
