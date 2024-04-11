@@ -31,20 +31,20 @@ return (<View style={styles.container}>
   <View style={styles.buttonContainer}>
 
     <View style={styles.row}>
-      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
-      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
-      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.eatingOut)} image={CATEGORY.eatingOut }/>
+       <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.food)} image={CATEGORY.food }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.bills)} image={CATEGORY.bills }/> 
     </View>
-     <View style={styles.row}>
-      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
-      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
-      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
+      <View style={styles.row}>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.health)} image={CATEGORY.health }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.transport)} image={CATEGORY.transport }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.taxi)} image={CATEGORY.taxi}/>
     </View>
     <View style={styles.row}>
-      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
-      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
-      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.iceCream)} image={CATEGORY.iceCream }/>
-    </View> 
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.pets)} image={CATEGORY.pets }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.sports)} image={CATEGORY.sports }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.house)} image={CATEGORY.house }/>
+    </View>  
     
   </View>
 </View>)
