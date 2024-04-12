@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, {createContext,useContext, useState ,useEffect} from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet,ScrollView } from 'react-native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const months = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
-
 const expensesData = [
   { date: '2022-01-01', category: 'Food', amount: 20 },
   { date: '2022-01-01', category: 'Transportation', amount: 15 },
@@ -14,13 +13,27 @@ const expensesData = [
   // Add more expense data here
 ];
 
+export const CalendarProvider = ({ children }) => {
+  
+  const [storageUpdated, setStorageUpdated] = useState(false);
+  return (
+    <CalendarContext.Provider
+    value={{ storageUpdated, setStorageUpdated }}
+    >
+      {children}  
+    </CalendarContext.Provider>
+  );
+  
+}
+const CalendarContext = createContext();
+export const useCalendar = () => useContext(CalendarContext);
 export const Calendar = () => {
   const [mode, setMode] = useState('date'); // 'date' or 'category'
-
+  const [expenses, setExpenses] = useState([]);
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text>{mode === 'date' ? item.date : item.category}</Text>
-      <Text>${item.amount}</Text>
+      <Text>${item.displayValue}</Text>
     </View>
   );
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
@@ -28,6 +41,34 @@ export const Calendar = () => {
   const handleMonthChange = (index) => {
     setSelectedMonth(index);
   };
+  const retrieveExpenses = async (date) => {
+    try {
+      // Retrieve the JSON string from AsyncStorage
+      const jsonString = await AsyncStorage.getItem(date);
+      console.log('json:', jsonString);
+  
+      // Parse the JSON string into a JavaScript object
+      const data = JSON.parse(jsonString) || [];
+  
+      // Log or return the data object
+      
+      return data;
+    } catch (error) {
+      console.error('Error retrieving expense data:', error);
+      return null;
+    }
+  };
+  const {storageUpdated}= useCalendar();
+  useEffect(() => {
+    console.log("update list");
+    const fetchExpenses = async () => {
+      const expensesData = await retrieveExpenses('12:4:2024');
+      //console.log('Expense data:',expensesData);
+      setExpenses(expensesData);
+    };
+
+    fetchExpenses();
+  }, [storageUpdated]);
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
@@ -46,11 +87,15 @@ export const Calendar = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
+      <View>
       <FlatList
-        data={expensesData}
+        data={expenses}
         keyExtractor={(item, index) => index.toString()}
         renderItem={renderItem}
       />
+
+      </View>
+      
     </View>
   );
 };

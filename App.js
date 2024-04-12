@@ -3,9 +3,10 @@ import { StyleSheet, Text, View, TouchableOpacity,Image  }
     from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCalculator } from './Calculator'; 
 import { CalculatorProvider } from './Calculator'; // Import CalculatorProvider
-import { Calendar } from './Calendar';
+import { useCalendar,Calendar,CalendarProvider } from './Calendar';
 import { CATEGORY} from './Categories';
 function ExpenseScreen({  navigation }){
   const {
@@ -53,7 +54,22 @@ function CalendarScreen({navigator})
 {
   return <Calendar/>
 }
+const ClearAsyncStorageButton = () => {
 
+  const {storageUpdated, setStorageUpdated} = useCalendar();
+  const clearAsyncStorage = async () => {
+    try {
+      await AsyncStorage.clear();
+      setStorageUpdated(!storageUpdated);
+    } catch (error) {
+      console.error('Error clearing AsyncStorage:', error);
+    }
+  };
+
+  return (
+      <ClearButton  onPress={clearAsyncStorage} text ='Clear AsyncStorage'/>
+  );
+};
 function HomeScreen({ navigation }) {
   const {
       displayValue,
@@ -104,7 +120,10 @@ function HomeScreen({ navigation }) {
               <OperatorButton onPress={() => handleDot()} text="." />
               </View>
               <ClearButton onPress={() => handleClear()} text="C" />
+              <ClearAsyncStorageButton/>
             </View>
+                
+
           </View>
   );
 }
@@ -146,19 +165,19 @@ function Calculator() {
    
   
         return (
-          <CalculatorProvider>
-
-          <NavigationContainer>
-          <Tab.Navigator>
-              <Tab.Screen name="Calculator" component={HomeScreen} />
-              {/* so tab is not shown */}
-               <Tab.Screen name="Expense" component={ExpenseScreen} options={{ tabBarButton: () => null }}/> 
-                <Tab.Screen name="Calendar" component={CalendarScreen} /> 
-          </Tab.Navigator>
-          </NavigationContainer>
-          </CalculatorProvider>
-
-       
+          <CalendarProvider>
+            <CalculatorProvider>
+              <NavigationContainer>
+                <Tab.Navigator>
+                  <Tab.Screen name="Calculator" component={HomeScreen} />
+                  {/* so tab is not shown */}
+                  <Tab.Screen name="Expense" component={ExpenseScreen} options={{ tabBarButton: () => null }}/> 
+                  <Tab.Screen name="Calendar" component={CalendarScreen} /> 
+                </Tab.Navigator>
+              </NavigationContainer>
+            </CalculatorProvider>
+          </CalendarProvider>
+          
         );
       }
       
@@ -167,6 +186,7 @@ export default function App() {
   return (
       <Calculator
       />
+    
   );
 
 }

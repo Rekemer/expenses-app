@@ -2,8 +2,8 @@ import React, { createContext,
   useContext, useState
  } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useCalendar} from './Calendar'
 const CalculatorContext = createContext();
-AsyncStorage.setItem(CATEGORY.eatingOut.text,'0');
 
 export const CalculatorProvider = ({ children }) => {
 
@@ -12,7 +12,16 @@ export const CalculatorProvider = ({ children }) => {
 const [displayValue, setDisplayValue] = useState('0');
 const [operator, setOperator] = useState(null);
 const [firstValue, setFirstValue] = useState('');
-const [date,setDate] = useState('20.02.2020');
+const {storageUpdated,setStorageUpdated} = useCalendar();
+const currentDate = new Date();
+
+const day = currentDate.getDate(); 
+const month = currentDate.getMonth() + 1;
+const year = currentDate.getFullYear(); 
+
+const dateString = `${day}:${month}:${year}`;
+
+const [date,setDate] = useState(dateString);
 // Function to handle operator inputs
 const handleOperatorInput = (operator) => {
  setOperator(operator);
@@ -52,10 +61,22 @@ const handleOperatorInput = (operator) => {
       try {
         let categoryNumber = await AsyncStorage.getItem(category.text);
         categoryNumber = JSON.parse(categoryNumber); 
-        const newNumber = categoryNumber + parseFloat(displayValue);
+        const newNumber =  categoryNumber + parseFloat(displayValue);
         //console.log('new number : ' +newNumber);
-        await AsyncStorage.setItem(category.text, JSON.stringify(newNumber));
+        const data = { date, displayValue, category:category.text };
+        
+        const existingDataString = await AsyncStorage.getItem(date);
+        const existingData = existingDataString ? JSON.parse(existingDataString) : [];
+        
+        // Add or update the expense for the given date
+        existingData.push(data);
+        console.log(existingData);
+        console.log('date '  + date);
+
+
+        await AsyncStorage.setItem(date, JSON.stringify(existingData));
         //console.log(category.text + ': ' + categoryNumber);
+        setStorageUpdated(!storageUpdated);
         handleClear();
     } catch (error) {
         console.error('Error saving data:', error);
