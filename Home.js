@@ -34,7 +34,7 @@ export const Home = () => {
         <Text style={styles.topCalendarText}>April</Text>
         <Text style={styles.topCalendarText}>May</Text>
       </View>
-      <Chart categories={categories}></Chart>
+      <Chart style={styles.doughnut} categories={categories}></Chart>
       <FlatList style={styles.historylist} data = {expese} renderItem={({item}) => (
         <View style={styles.itemframe}>
           <Text style={styles.dateText}>{item.date}</Text>
@@ -60,18 +60,23 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   topCalendar: {
-    margin: 15,
+    marginTop: 20,
     flex: 1,
+    position: 'absolute',
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: "#cccccc",
-    borderRadius: 10,
-    height: 20,
+    borderRadius: 12,
+    height: 25,
     width: 300,
   },
   topCalendarText: {
     fontWeight: "bold",
+  },
+  doughnut: {
+    position: "relative",
+    
   },
   historylist: {
     margin: 10,
