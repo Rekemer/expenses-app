@@ -7,13 +7,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCalculator } from './Calculator'; 
 import { CalculatorProvider } from './Calculator'; // Import CalculatorProvider
 import { useCalendar,Calendar,CalendarProvider } from './Calendar';
+import { CalendarTimeProvider } from './RandomtCalendarTime';
 import { CATEGORY} from './Categories';
 function ExpenseScreen({  navigation }){
   const {
       displayValue,
        date,
        setDisplayValue,
-       setDate,
        handleNumberInput,
        handleOperatorInput,
        handleCategoryInput,
@@ -75,7 +75,6 @@ function HomeScreen({ navigation }) {
       displayValue,
          date,
          setDisplayValue,
-         setDate,
          handleNumberInput,
          handleOperatorInput,
          handleCategoryInput,
@@ -166,6 +165,7 @@ function Calculator() {
   
         return (
           <CalendarProvider>
+          <CalendarTimeProvider>
             <CalculatorProvider>
               <NavigationContainer>
                 <Tab.Navigator>
@@ -176,6 +176,7 @@ function Calculator() {
                 </Tab.Navigator>
               </NavigationContainer>
             </CalculatorProvider>
+            </CalendarTimeProvider>
           </CalendarProvider>
           
         );

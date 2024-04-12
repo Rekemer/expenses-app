@@ -3,6 +3,7 @@ import React, { createContext,
  } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useCalendar} from './Calendar'
+import {useCalendarTime} from './RandomtCalendarTime'
 const CalculatorContext = createContext();
 
 export const CalculatorProvider = ({ children }) => {
@@ -13,15 +14,8 @@ const [displayValue, setDisplayValue] = useState('0');
 const [operator, setOperator] = useState(null);
 const [firstValue, setFirstValue] = useState('');
 const {storageUpdated,setStorageUpdated} = useCalendar();
-const currentDate = new Date();
+const {date} =useCalendarTime();
 
-const day = currentDate.getDate(); 
-const month = currentDate.getMonth() + 1;
-const year = currentDate.getFullYear(); 
-
-const dateString = `${day}:${month}:${year}`;
-
-const [date,setDate] = useState(dateString);
 // Function to handle operator inputs
 const handleOperatorInput = (operator) => {
  setOperator(operator);
@@ -58,23 +52,24 @@ const handleOperatorInput = (operator) => {
       console.log('handleNumberInput num: ' +  num);
     };
     const handleCategoryInput = async (category) => {
+     
       try {
         let categoryNumber = await AsyncStorage.getItem(category.text);
         categoryNumber = JSON.parse(categoryNumber); 
         const newNumber =  categoryNumber + parseFloat(displayValue);
         //console.log('new number : ' +newNumber);
-        const data = { date, displayValue, category:category.text };
+        const data = { date:'12:4:2024', displayValue, category:category.text };
         
-        const existingDataString = await AsyncStorage.getItem(date);
+        const existingDataString = await AsyncStorage.getItem('12:4:2024');
         const existingData = existingDataString ? JSON.parse(existingDataString) : [];
         
         // Add or update the expense for the given date
         existingData.push(data);
         console.log(existingData);
-        console.log('date '  + date);
+        //console.log('date '  + date.getString());
 
 
-        await AsyncStorage.setItem(date, JSON.stringify(existingData));
+        await AsyncStorage.setItem('12:4:2024', JSON.stringify(existingData));
         //console.log(category.text + ': ' + categoryNumber);
         setStorageUpdated(!storageUpdated);
         handleClear();
@@ -96,9 +91,8 @@ const handleOperatorInput = (operator) => {
      <CalculatorContext.Provider
        value={{
          displayValue,
-         date,
+         date:'12:4:2024',
          setDisplayValue,
-         setDate,
          handleNumberInput,
          handleOperatorInput,
          handleCategoryInput,

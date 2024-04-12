@@ -1,6 +1,7 @@
 import React, {createContext,useContext, useState ,useEffect} from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet,ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useCalendarTime } from './RandomtCalendarTime';
 const months = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -30,12 +31,22 @@ export const useCalendar = () => useContext(CalendarContext);
 export const Calendar = () => {
   const [mode, setMode] = useState('date'); // 'date' or 'category'
   const [expenses, setExpenses] = useState([]);
-  const renderItem = ({ item }) => (
-    <View style={styles.item}>
-      <Text>{mode === 'date' ? item.date : item.category}</Text>
-      <Text>${item.displayValue}</Text>
-    </View>
-  );
+  const renderItem = ({ item }) => {
+    console.log('render item called ');
+    const month = parseInt(item.date.split(':')[1], 10);
+    const shouldRender = (selectedMonth+1) === month;
+    console.log('selected ' + selectedMonth+1);
+    console.log('item month '+ month);
+    return shouldRender ? (
+      <View style={styles.item}>
+        <Text>{mode === 'date' ? item.date : item.category}</Text>
+        <Text>${item.displayValue}</Text>
+      </View>
+    ) : null;
+
+}
+  const {randomDate} =useCalendarTime();
+  console.log(randomDate);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
   const handleMonthChange = (index) => {
@@ -45,7 +56,7 @@ export const Calendar = () => {
     try {
       // Retrieve the JSON string from AsyncStorage
       const jsonString = await AsyncStorage.getItem(date);
-      console.log('json:', jsonString);
+      //console.log('json:', jsonString);
   
       // Parse the JSON string into a JavaScript object
       const data = JSON.parse(jsonString) || [];
@@ -63,12 +74,13 @@ export const Calendar = () => {
     console.log("update list");
     const fetchExpenses = async () => {
       const expensesData = await retrieveExpenses('12:4:2024');
-      //console.log('Expense data:',expensesData);
+      console.log('Expense data:',expensesData);
       setExpenses(expensesData);
     };
 
     fetchExpenses();
   }, [storageUpdated]);
+  //console.log(expenses);
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
