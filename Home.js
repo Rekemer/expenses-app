@@ -4,6 +4,16 @@ import { useState } from "react";
 import Chart from "./Chart";
 
 export const Home = () => {
+  const [categories, setCategories] = useState([
+    {sum: 322, color: "#666666"},
+    {sum: 228, color: "#777777"},
+    {sum: 1000, color: "#888888"},
+    {sum: 500, color: "#999999"},
+    {sum: 78, color: "#AAAAAA"},
+  ])
+
+
+
   const [expese, setExpense] = useState([
     {date: '11.04.2024', amount: '20', key: '1'},
     {date: '10.04.2024', amount: '10', key: '2'},
@@ -19,7 +29,12 @@ export const Home = () => {
 
   return(
     <View style={styles.wrapper}>
-      <Chart></Chart>
+      <View style={styles.topCalendar}>
+        <Text style={styles.topCalendarText}>March</Text>
+        <Text style={styles.topCalendarText}>April</Text>
+        <Text style={styles.topCalendarText}>May</Text>
+      </View>
+      <Chart categories={categories}></Chart>
       <FlatList style={styles.historylist} data = {expese} renderItem={({item}) => (
         <View style={styles.itemframe}>
           <Text style={styles.dateText}>{item.date}</Text>
@@ -35,16 +50,30 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     flexDirection: 'column',
-    justifyContent: 'flex-end',
+    // justifyContent: 'flex-end',
+    gap: 5,
     borderColor: 'red',
-    borderWidth: 10,
+    borderWidth: 2,
   },
   title: {
     fontSize: 24,
     margin: 10,
   },
+  topCalendar: {
+    margin: 15,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    backgroundColor: "#cccccc",
+    borderRadius: 10,
+    height: 20,
+    width: 300,
+  },
+  topCalendarText: {
+    fontWeight: "bold",
+  },
   historylist: {
-
     margin: 10,
     borderTopWidth: 2,
     borderTopColor: "#bbbbbb",

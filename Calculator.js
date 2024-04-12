@@ -4,7 +4,7 @@ import React, {
 } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const CalculatorContext = createContext();
-import {CATEGORY} from "./Categories";
+import { CATEGORY } from "./Categories";
 AsyncStorage.setItem(CATEGORY.eatingOut.text, '0');
 
 export const CalculatorProvider = ({ children }) => {

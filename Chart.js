@@ -2,25 +2,25 @@ import { View, Text, StyleSheet } from "react-native";
 import React, { Component } from "react";
 import PieChart from 'react-native-pie-chart';
 
-export default class Chart extends Component {
-  render() {
-    const widthAndHeight = 250;
-    const series = [123, 321, 123, 789, 537];
-    const sliceColor = ['#aaaaaa', '#bbbbbb', '#cccccc', '#dddddd', '#eeeeee'];
+export default function Chart({categories}) {
+
+    const widthAndHeight = 200;
+    const cat = [...categories];
+    const series = cat.map(x => x = x.sum);
+    const colors = cat.map(x => x = x.color);
 
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Doughnut</Text>
         <PieChart
           widthAndHeight={widthAndHeight}
           series={series}
-          sliceColor={sliceColor}
-          coverRadius={0.45}
+          sliceColor={colors}
+          coverRadius={0.55}
           coverFill={'#FFF'}
         />
       </View>
     );
-  }
+  
 }
 
 const styles = StyleSheet.create({
