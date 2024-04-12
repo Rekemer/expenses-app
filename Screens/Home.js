@@ -1,7 +1,7 @@
 import React from "react";
-import {View, Text, StyleSheet, FlatList } from "react-native";
+import {View, Text, StyleSheet, FlatList, Pressable, Image } from "react-native";
 import { useState } from "react";
-import Chart from "./Chart";
+import Chart from "../Chart";
 
 export const Home = () => {
   const [categories, setCategories] = useState([
@@ -11,8 +11,6 @@ export const Home = () => {
     {sum: 500, color: "#999999"},
     {sum: 78, color: "#AAAAAA"},
   ])
-
-
 
   const [expese, setExpense] = useState([
     {date: '11.04.2024', amount: '20', key: '1'},
@@ -29,11 +27,11 @@ export const Home = () => {
 
   return(
     <View style={styles.wrapper}>
-      <View style={styles.topCalendar}>
+      {/* <View style={styles.topCalendar}>
         <Text style={styles.topCalendarText}>March</Text>
         <Text style={styles.topCalendarText}>April</Text>
         <Text style={styles.topCalendarText}>May</Text>
-      </View>
+      </View> */}
       <Chart style={styles.doughnut} categories={categories}></Chart>
       <FlatList style={styles.historylist} data = {expese} renderItem={({item}) => (
         <View style={styles.itemframe}>
@@ -41,6 +39,14 @@ export const Home = () => {
           <Text style={styles.amountText}>{item.amount}$</Text>
         </View>
       )}/>
+      <View style={styles.bottomPanel}>
+        <Pressable style={styles.bottomButton}>
+          <Image  source={require('../assets/MinusButton.svg')}/>
+        </Pressable>
+        <Pressable style={styles.bottomButton}>
+          <Image style={styles.bottomButton} source={require('../assets/PlusButton.svg')}/>
+        </Pressable>
+      </View>
     </View>
   );
 };
@@ -70,20 +76,20 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     height: 25,
     width: 300,
+    overflow: "hidden",
   },
   topCalendarText: {
     fontWeight: "bold",
   },
   doughnut: {
-    position: "relative",
-    
+    // position: "relative",
   },
   historylist: {
     margin: 10,
     borderTopWidth: 2,
     borderTopColor: "#bbbbbb",
     width: "auto",
-    height: 100,
+    height: 50,
   },
   itemframe: {
     marginVertical: 7,
@@ -103,6 +109,24 @@ const styles = StyleSheet.create({
   amountText: {
     fontWeight: 'bold',
   },
+  bottomPanel: {
+    flex: 1,
+    // flexShrink: 1,
+    padding: 30,
+    // flexGrow: 0,
+    width: 300,
+    height: 120,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    marginBottom: 20,
+  },
+  bottomButton: {
+    height: 50,
+    width: 50,
+    borderColor: 'blue',
+    borderWidth: 2,
+  }
 });
 
 // export default Home;

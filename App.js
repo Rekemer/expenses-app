@@ -7,7 +7,7 @@ import { useCalculator } from './Calculator';
 import { CalculatorProvider } from './Calculator'; // Import CalculatorProvider
 import { Calendar } from './Calendar';
 import { CATEGORY } from './Categories';
-import { Home } from './Home';
+import { Home } from './Screens/Home';
 
 function ExpenseScreen({ navigation }) {
   const {
@@ -145,7 +145,6 @@ const ClearButton = ({ onPress, text }) => (
 
 //   return (
 //     <CalculatorProvider>
-
 //       <NavigationContainer>
 //         <Tab.Navigator>
 //           <Tab.Screen name="Calculator" component={HomeScreen} />
