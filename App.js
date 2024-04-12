@@ -55,7 +55,7 @@ function CalendarScreen({ navigator }) {
   return <Calendar />
 }
 
-function HomeScreen({ navigation }) {
+function CalculatorScreen({ navigation }) {
   const {
     displayValue,
     date,
@@ -139,35 +139,39 @@ const ClearButton = ({ onPress, text }) => (
     <Text style={styles.clearButtonText}>{text}</Text>
   </TouchableOpacity>
 );
-function Calculator() {
-  const Tab = createBottomTabNavigator();
 
+// function Calculator() {
+//   const Tab = createBottomTabNavigator();
 
-  return (
-    <CalculatorProvider>
+//   return (
+//     <CalculatorProvider>
 
-      <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen name="Calculator" component={HomeScreen} />
-          {/* so tab is not shown */}
-          <Tab.Screen name="Expense" component={ExpenseScreen} options={{ tabBarButton: () => null }} />
-          <Tab.Screen name="Calendar" component={CalendarScreen} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </CalculatorProvider>
-
-
-  );
-}
+//       <NavigationContainer>
+//         <Tab.Navigator>
+//           <Tab.Screen name="Calculator" component={HomeScreen} />
+//           {/* so tab is not shown */}
+//           <Tab.Screen name="Expense" component={ExpenseScreen} options={{ tabBarButton: () => null }} />
+//           <Tab.Screen name="Calendar" component={CalendarScreen} />
+//         </Tab.Navigator>
+//       </NavigationContainer>
+//     </CalculatorProvider>
+//   );
+// }
 
 
 export default function App() {
 
-  return (
-    <View style={styles.container}>
-      <Home/>
+  const Tab = createBottomTabNavigator();
 
-    </View>
+  return (
+    <NavigationContainer>
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={Home}></Tab.Screen>
+        <Tab.Screen name="Calculator" component={CalculatorScreen} />
+        <Tab.Screen name="Expenses" component={ExpenseScreen}></Tab.Screen>
+        <Tab.Screen name="Calendar" component={CalendarScreen}></Tab.Screen>
+      </Tab.Navigator>
+    </NavigationContainer>
 
     // <Calculator
     // />
