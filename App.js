@@ -7,8 +7,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCalculator } from './Calculator'; 
 import { CalculatorProvider } from './Calculator'; // Import CalculatorProvider
 import { useCalendar,Calendar,CalendarProvider } from './Calendar';
-import { CalendarTimeProvider } from './RandomtCalendarTime';
+import { useCalendarTime,CalendarTimeProvider } from './RandomtCalendarTime';
 import { CATEGORY} from './Categories';
+import { userId} from './User';
 function ExpenseScreen({  navigation }){
   const {
       displayValue,
@@ -60,6 +61,8 @@ const ClearAsyncStorageButton = () => {
   const clearAsyncStorage = async () => {
     try {
       await AsyncStorage.clear();
+      const initDates = ['13:4:2024'];
+      await AsyncStorage.setItem(userId, JSON.stringify(initDates))
       setStorageUpdated(!storageUpdated);
     } catch (error) {
       console.error('Error clearing AsyncStorage:', error);
@@ -82,11 +85,22 @@ function HomeScreen({ navigation }) {
          handleDot,
          handleClear,
   } = useCalculator(); // Use useCalculator hook to access state and functions
+  const {updateRandomTime} =useCalendarTime();
   //console.log("FUCK");
   return (
        <View style={styles.container}>
-            <View >
+            <View style = {{flexDirection:'row'}}>
               <Text style={styles.displayDate}>{date}</Text>
+              <TouchableOpacity style={{flex: 1,
+                borderRadius: 50,
+                alignItems: 'center',
+                justifyContent: 'center',
+                backgroundColor: '#fff',
+                elevation: 3,
+                margin: 1,
+                padding: 2,}}>
+              <Text style={styles.clearButtonText}  onPress={() => updateRandomTime()} >Set Random Time</Text>
+            </TouchableOpacity>
             </View>
             <Display value={displayValue} />
             <TouchableOpacity style={styles.buttonCategory}>

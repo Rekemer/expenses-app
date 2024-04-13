@@ -4,6 +4,7 @@ import React, { createContext,
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useCalendar} from './Calendar'
 import {useCalendarTime} from './RandomtCalendarTime'
+import {userId} from './User'
 const CalculatorContext = createContext();
 
 export const CalculatorProvider = ({ children }) => {
@@ -14,8 +15,8 @@ const [displayValue, setDisplayValue] = useState('0');
 const [operator, setOperator] = useState(null);
 const [firstValue, setFirstValue] = useState('');
 const {storageUpdated,setStorageUpdated} = useCalendar();
-const {date} =useCalendarTime();
-
+const {randomTime} =useCalendarTime();
+const date = randomTime.getString()
 // Function to handle operator inputs
 const handleOperatorInput = (operator) => {
  setOperator(operator);
@@ -48,8 +49,8 @@ const handleOperatorInput = (operator) => {
       } else {
         setDisplayValue(displayValue + num);
       }
-      console.log('handleNumberInput: ' +  displayValue);
-      console.log('handleNumberInput num: ' +  num);
+      //console.log('handleNumberInput: ' +  displayValue);
+      //console.log('handleNumberInput num: ' +  num);
     };
     const handleCategoryInput = async (category) => {
      
@@ -61,18 +62,26 @@ const handleOperatorInput = (operator) => {
         const generateId = () => {
           return Math.random().toString(36).substr(2, 9);
         };
-        const data = { date:'13:4:2024', displayValue, category:category.text ,id : generateId()};
-        
-        const existingDataString = await AsyncStorage.getItem('13:4:2024');
+       
+        const data = { date:date, displayValue, category:category.text ,id : generateId()};
+        const userDatesJson = await AsyncStorage.getItem(userId);
+        userDates = JSON.parse(userDatesJson);
+        console.log('user dates ' + userDates);
+        const existingDataString = await AsyncStorage.getItem(date);
         const existingData = existingDataString ? JSON.parse(existingDataString) : [];
-        
         // Add or update the expense for the given date
         existingData.push(data);
-        //console.log(existingData);
+        console.log(existingData);
+
+        if (!userDates.includes(date)) {
+          userDates.push(date);
+        }
+        
+
         //console.log('date '  + date.getString());
 
-
-        await AsyncStorage.setItem('13:4:2024', JSON.stringify(existingData));
+        await AsyncStorage.setItem(date, JSON.stringify(existingData));
+        await AsyncStorage.setItem(userId, JSON.stringify(userDates));
         //console.log(category.text + ': ' + categoryNumber);
         setStorageUpdated(!storageUpdated);
         handleClear();
@@ -94,7 +103,7 @@ const handleOperatorInput = (operator) => {
      <CalculatorContext.Provider
        value={{
          displayValue,
-         date:'13:4:2024',
+         date: date,
          setDisplayValue,
          handleNumberInput,
          handleOperatorInput,

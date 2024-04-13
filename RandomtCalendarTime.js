@@ -6,17 +6,25 @@ export const useCalendarTime = () => useContext(CalendarTimeContext);
 
 export const CalendarTimeProvider = ({ children }) => {
     
-    const [randomTime, setRandomTome] = useState( getRandomCalendarTime());
+    const [randomTime, setRandomTime] = useState( getRandomCalendarTime());
+
+    const updateRandomTime = () =>{
+      const randomTime = getRandomCalendarTime();
+      setRandomTime(randomTime);
+    };
+
     return (
       <CalendarTimeContext.Provider
-      value={{ randomTime, setRandomTome }}
+      value={{ randomTime, setRandomTime ,updateRandomTime}}
       >
         {children}  
       </CalendarTimeContext.Provider>
     );
     
   }
-
+  export function getMonth(date) {
+    return parseInt(date.split(':')[1], 10)
+  }
 class CalendarTime {
     constructor(day, month, year) {
       this.day = day;
@@ -24,9 +32,7 @@ class CalendarTime {
       this.year = year;
     }
   
-    getMonth() {
-      return this.month;
-    }
+    
     getString(){
         return `${this.day}:${this.month}:${this.year}`;
     }
