@@ -1,6 +1,6 @@
 export const CATEGORY = {
     eatingOut: {
-      text: 'ice-Cream', 
+      text: 'eating out', 
       uri: require('./assets/ice-cream.png')
     },
     food: {

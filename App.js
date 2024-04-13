@@ -12,14 +12,9 @@ import { CATEGORY} from './Categories';
 import { userId} from './User';
 function ExpenseScreen({  navigation }){
   const {
-      displayValue,
+       displayValue,
        date,
-       setDisplayValue,
-       handleNumberInput,
-       handleOperatorInput,
        handleCategoryInput,
-       handleEqual,
-       handleClear,
 } = useCalculator(); // Use useCalculator hook to access state and functions
 return (<View style={styles.container}>
   <View >
@@ -77,10 +72,8 @@ function HomeScreen({ navigation }) {
   const {
       displayValue,
          date,
-         setDisplayValue,
          handleNumberInput,
          handleOperatorInput,
-         handleCategoryInput,
          handleEqual,
          handleDot,
          handleClear,

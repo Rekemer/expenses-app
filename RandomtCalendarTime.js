@@ -22,6 +22,10 @@ export const CalendarTimeProvider = ({ children }) => {
     );
     
   }
+  export function getDay(date)
+  {
+    return parseInt(date.split(':')[0], 10);
+  }
   export function getMonth(date) {
     return parseInt(date.split(':')[1], 10)
   }

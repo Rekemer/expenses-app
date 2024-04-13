@@ -2,7 +2,7 @@ import React, {createContext,useContext, useState ,useEffect} from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet,ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {userId} from './User'
-import { getMonth,useCalendarTime } from './RandomtCalendarTime';
+import { getDay, getMonth } from './RandomtCalendarTime';
 const months = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -31,24 +31,7 @@ const expensesData = [
   { id: 4, category: 'Bills', amount: 70 },
 ];
 
-const ExpensesList = () => {
- 
 
- 
-
-  return (
-    <FlatList
-      data={expensesData.reduce((acc, expense) => {
-        if (!acc.find((item) => item.category === expense.category)) {
-          acc.push({ category: expense.category });
-        }
-        return acc;
-      }, [])}
-      renderItem={renderCategoryHeader}
-      keyExtractor={(item) => item.category}
-    />
-  );
-};
 
 
 
@@ -57,22 +40,6 @@ const ExpensesList = () => {
 export const Calendar = () => {
   const [mode, setMode] = useState('date'); // 'date' or 'category'
   const [expenses, setExpenses] = useState([]);
-  const renderItem = ({ item }) => {
-    //console.log('render item called ');
-    const month = getMonth(item.date) ;
-    const shouldRender = (selectedMonth+1) === month;
-    //console.log('selected ' + selectedMonth+1);
-    //console.log('item month '+ month);
-    return shouldRender ? (
-      <View style={styles.item}>
-        <Text>{mode === 'date' ? item.date : item.category}</Text>
-        <Text>${item.displayValue}</Text>
-      </View>
-    ) : null;
-
-}
-  const {randomDate} =useCalendarTime();
-  //console.log(randomDate);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
   const handleMonthChange = (index) => {
@@ -103,15 +70,13 @@ export const Calendar = () => {
       const dates = JSON.parse(datesJson);
       const keys = await AsyncStorage.getAllKeys();
       console.log('user dates ' + dates);
-      console.log('keys ' + keys);
       var expenses = []
+      // get all expenses of the user for all dates
       for (const date of dates) {
         // Retrieve expenses for the current date
         const expensesData = await retrieveExpenses(date);
         console.log('Expense data:',expensesData);
-        
-        // Push the expenses data to the expensesDate array
-        expenses .push(...expensesData);
+        expenses.push(...expensesData);
       }
       setExpenses(expenses );
     };
@@ -129,9 +94,11 @@ export const Calendar = () => {
     );
   };
   const renderExpense = ({ item }) => {
-    console.log('item '+item);
     return (<View style={{ marginLeft: 20 }}>
       <Text>{`Amount: $${item.displayValue}`}</Text>
+      {mode === 'category' && (
+  <   Text>Date: {item.date}</Text>
+    )}
     </View>);
     
     };
@@ -150,7 +117,7 @@ export const Calendar = () => {
     //console.log('isExpanded ' +isExpanded);
     return (
       <TouchableOpacity onPress={() => toggleCategory(mode  === 'date'? item.date :item.category )}>
-        <Text>{mode === 'date' ? item.date : item.category}</Text>
+        <Text>{mode === 'date' ? getDay(item.date) : item.category}</Text>
         {isExpanded && (
           <FlatList
             data={expenses.filter((expense) =>  mode === 'date' ?  
@@ -189,7 +156,7 @@ export const Calendar = () => {
       <FlatList
       data= {expenses.reduce((acc, expense) => {
         const shouldRender = (selectedMonth + 1) === getMonth(expense.date);
-        console.log(selectedMonth);
+        //console.log(selectedMonth);
         if (mode === 'category')
         {
            // so we have only unique headers 
