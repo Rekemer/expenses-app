@@ -123,14 +123,25 @@ export const Calendar = () => {
     
     };
   const renderCategoryHeader = ({ item }) => {
-    const isExpanded = item.category === expandedCategory;
-    console.log('itemCategory ' + item.category);
+    var isExpanded = false;
+    if (mode === 'category')
+    {
+      isExpanded = item.category === expandedCategory;
+    }
+    else
+    {
+      isExpanded = item.date === expandedCategory;
+    }
+    console.log('itemCategory ' + item.date);
+    console.log('ex ' + expandedCategory);
+    console.log('isExpanded ' +isExpanded);
     return (
-      <TouchableOpacity onPress={() => toggleCategory(item.category)}>
-        <Text style={{ fontSize: 18 }}>{item.category}</Text>
+      <TouchableOpacity onPress={() => toggleCategory(mode  === 'date'? item.date :item.category )}>
+        <Text>{mode === 'date' ? item.date : item.category}</Text>
         {isExpanded && (
           <FlatList
-            data={expenses.filter((expense) => expense.category === item.category)}
+            data={expenses.filter((expense) =>  mode === 'date' ? expense.date === item.date : 
+            expense.category === item.category)}
             renderItem={renderExpense}
             keyExtractor={(expense) => expense.id.toString()}
           />
@@ -163,13 +174,23 @@ export const Calendar = () => {
       <View style = {{ borderColor: 'red', borderWidth: 2 }}>
       <FlatList
       data={expenses.reduce((acc, expense) => {
-        if (!acc.find((item) => item.category === expense.category)) {
-          acc.push({ category: expense.category });
+        if (mode === 'category')
+        {
+          if (!acc.find((item) => item.category === expense.category)) {
+            acc.push({ category: expense.category });
+          }
         }
+        else 
+        {
+         if (!acc.find((item) => item.date === expense.date)) {
+           acc.push({ date: expense.date });
+          }
+        }
+       
         return acc;
       }, [])}
       renderItem={renderCategoryHeader}
-      keyExtractor={(item) => item.category}
+      keyExtractor={(item) => mode === 'date' ? item.date : item.category}
     />
 
       </View>
