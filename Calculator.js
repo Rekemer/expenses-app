@@ -58,18 +58,21 @@ const handleOperatorInput = (operator) => {
         categoryNumber = JSON.parse(categoryNumber); 
         const newNumber =  categoryNumber + parseFloat(displayValue);
         //console.log('new number : ' +newNumber);
-        const data = { date:'12:4:2024', displayValue, category:category.text };
+        const generateId = () => {
+          return Math.random().toString(36).substr(2, 9);
+        };
+        const data = { date:'13:4:2024', displayValue, category:category.text ,id : generateId()};
         
-        const existingDataString = await AsyncStorage.getItem('12:4:2024');
+        const existingDataString = await AsyncStorage.getItem('13:4:2024');
         const existingData = existingDataString ? JSON.parse(existingDataString) : [];
         
         // Add or update the expense for the given date
         existingData.push(data);
-        console.log(existingData);
+        //console.log(existingData);
         //console.log('date '  + date.getString());
 
 
-        await AsyncStorage.setItem('12:4:2024', JSON.stringify(existingData));
+        await AsyncStorage.setItem('13:4:2024', JSON.stringify(existingData));
         //console.log(category.text + ': ' + categoryNumber);
         setStorageUpdated(!storageUpdated);
         handleClear();
@@ -91,7 +94,7 @@ const handleOperatorInput = (operator) => {
      <CalculatorContext.Provider
        value={{
          displayValue,
-         date:'12:4:2024',
+         date:'13:4:2024',
          setDisplayValue,
          handleNumberInput,
          handleOperatorInput,

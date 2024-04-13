@@ -6,13 +6,6 @@ const months = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
 ];
-const expensesData = [
-  { date: '2022-01-01', category: 'Food', amount: 20 },
-  { date: '2022-01-01', category: 'Transportation', amount: 15 },
-  { date: '2022-01-02', category: 'Food', amount: 25 },
-  { date: '2022-01-02', category: 'Shopping', amount: 30 },
-  // Add more expense data here
-];
 
 export const CalendarProvider = ({ children }) => {
   
@@ -28,15 +21,47 @@ export const CalendarProvider = ({ children }) => {
 }
 const CalendarContext = createContext();
 export const useCalendar = () => useContext(CalendarContext);
+
+// Sample data
+const expensesData = [
+  { id: 1, category: 'Food', amount: 20 },
+  { id: 2, category: 'Food', amount: 30 },
+  { id: 3, category: 'Bills', amount: 50 },
+  { id: 4, category: 'Bills', amount: 70 },
+];
+
+const ExpensesList = () => {
+ 
+
+ 
+
+  return (
+    <FlatList
+      data={expensesData.reduce((acc, expense) => {
+        if (!acc.find((item) => item.category === expense.category)) {
+          acc.push({ category: expense.category });
+        }
+        return acc;
+      }, [])}
+      renderItem={renderCategoryHeader}
+      keyExtractor={(item) => item.category}
+    />
+  );
+};
+
+
+
+
+
 export const Calendar = () => {
   const [mode, setMode] = useState('date'); // 'date' or 'category'
   const [expenses, setExpenses] = useState([]);
   const renderItem = ({ item }) => {
-    console.log('render item called ');
+    //console.log('render item called ');
     const month = parseInt(item.date.split(':')[1], 10);
     const shouldRender = (selectedMonth+1) === month;
-    console.log('selected ' + selectedMonth+1);
-    console.log('item month '+ month);
+    //console.log('selected ' + selectedMonth+1);
+    //console.log('item month '+ month);
     return shouldRender ? (
       <View style={styles.item}>
         <Text>{mode === 'date' ? item.date : item.category}</Text>
@@ -46,7 +71,7 @@ export const Calendar = () => {
 
 }
   const {randomDate} =useCalendarTime();
-  console.log(randomDate);
+  //console.log(randomDate);
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
   const handleMonthChange = (index) => {
@@ -71,9 +96,9 @@ export const Calendar = () => {
   };
   const {storageUpdated}= useCalendar();
   useEffect(() => {
-    console.log("update list");
+    //console.log("update list");
     const fetchExpenses = async () => {
-      const expensesData = await retrieveExpenses('12:4:2024');
+      const expensesData = await retrieveExpenses('13:4:2024');
       console.log('Expense data:',expensesData);
       setExpenses(expensesData);
     };
@@ -81,6 +106,39 @@ export const Calendar = () => {
     fetchExpenses();
   }, [storageUpdated]);
   //console.log(expenses);
+  //return (<ExpensesList/>);
+
+  const [expandedCategory, setExpandedCategory] = useState(null);
+
+  const toggleCategory = (category) => {
+    setExpandedCategory((prevCategory) =>
+      prevCategory === category ? null : category
+    );
+  };
+  const renderExpense = ({ item }) => {
+    console.log('item '+item);
+    return (<View style={{ marginLeft: 20 }}>
+      <Text>{`Amount: $${item.displayValue}`}</Text>
+    </View>);
+    
+    };
+  const renderCategoryHeader = ({ item }) => {
+    const isExpanded = item.category === expandedCategory;
+    console.log('itemCategory ' + item.category);
+    return (
+      <TouchableOpacity onPress={() => toggleCategory(item.category)}>
+        <Text style={{ fontSize: 18 }}>{item.category}</Text>
+        {isExpanded && (
+          <FlatList
+            data={expenses.filter((expense) => expense.category === item.category)}
+            renderItem={renderExpense}
+            keyExtractor={(expense) => expense.id.toString()}
+          />
+        )}
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.topBar}>
@@ -92,19 +150,27 @@ export const Calendar = () => {
           <Text style={mode === 'category' ? styles.activeTab : styles.tab}>By Category</Text>
         </TouchableOpacity>
       </View>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-        {months.map((month, index) => (
+      <View style={{ width: '100%', borderColor: 'red', borderWidth: 2 }}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {months.map((month, index) => (
           <TouchableOpacity key={index} onPress={() => handleMonthChange(index)}>
-            <Text style={selectedMonth === index ? styles.activeMonth : styles.month}>{month}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-      <View>
+          <Text style={selectedMonth === index ? styles.activeMonth : styles.month}>{month}</Text>
+        </TouchableOpacity>
+       ))}
+        </ScrollView>
+      </View>
+
+      <View style = {{ borderColor: 'red', borderWidth: 2 }}>
       <FlatList
-        data={expenses}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={renderItem}
-      />
+      data={expenses.reduce((acc, expense) => {
+        if (!acc.find((item) => item.category === expense.category)) {
+          acc.push({ category: expense.category });
+        }
+        return acc;
+      }, [])}
+      renderItem={renderCategoryHeader}
+      keyExtractor={(item) => item.category}
+    />
 
       </View>
       
