@@ -96,7 +96,7 @@ export const Calendar = () => {
   };
   const renderExpense = ({ item }) => {
     return (<View style={{ marginLeft: 20 }}>
-      <Text>{`Amount: $${item.displayValue}`}</Text>
+      <Text style={{ color: item.IsExpense ?  'red': 'green' }}>{`Amount: $${item.displayValue}`}</Text>
       {mode === 'category' && (
   <   Text>Date: {item.date}</Text>
     )}
@@ -121,7 +121,7 @@ export const Calendar = () => {
     //console.log('isExpanded ' +isExpanded);
     return (
       <TouchableOpacity onPress={() => toggleCategory(mode  === 'date'? item.date :item.category )}>
-        <Text>{mode === 'date' ? getDay(item.date) : item.category}</Text>
+        <Text style={{ color: item.IsExpense ?  'red': 'green' }}>{mode === 'date' ? getDay(item.date) : item.category}</Text>
         {isExpanded && (
           <FlatList
             data={expenses.filter((expense) =>  mode === 'date' ?  
@@ -164,14 +164,14 @@ export const Calendar = () => {
         if (mode === 'category')
         {
            // so we have only unique headers 
-          if (!acc.find((item) => item.category === expense.category)) {
-            acc.push({ category: expense.category });
+          if (shouldRender && !acc.find((item) => item.category === expense.category)) {
+            acc.push({ category: expense.category, IsExpense: expense.IsExpense });
           }
         }
         else 
         {
          if ( shouldRender && !acc.find((item) => item.date === expense.date)) {
-           acc.push({ date: expense.date });
+           acc.push({ date: expense.date ,IsExpense: expense.IsExpense});
           }
         }
         console.log(acc);

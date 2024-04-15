@@ -63,7 +63,7 @@ const handleOperatorInput = (operator) => {
           return Math.random().toString(36).substr(2, 9);
         };
        
-        const data = { date:date, displayValue, category:category.text ,id : generateId()};
+        const data = { date:date, displayValue, category:category.text ,id : generateId(), IsExpense:category.IsExpense};
         const userDatesJson = await AsyncStorage.getItem(userId);
         userDates = JSON.parse(userDatesJson);
         console.log('user dates ' + userDates);

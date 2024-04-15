@@ -124,7 +124,7 @@ function HomeScreen({ navigation }) {
             <Display value={displayValue} />
             <TouchableOpacity style={styles.buttonCategory}>
                {/* <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Expense')} >Pick Category</Text>  */}
-               <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Income')} >Pick Category</Text> 
+               {/* <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Income')} >Pick Category</Text>  */}
             </TouchableOpacity>
             <View style={styles.buttonContainer}>
 
@@ -204,9 +204,10 @@ function Calculator() {
               <NavigationContainer>
                 <Tab.Navigator>
                   <Tab.Screen name="Calculator" component={HomeScreen} />
-                  {/* so tab is not shown */}
-                  <Tab.Screen name="Expense" component={ExpenseScreen} options={{ tabBarButton: () => null }}/> 
-                  <Tab.Screen name="Income" component={IncomeScreen} options={{ tabBarButton: () => null }}/> 
+                  {/* those tabs are shown only for debug purposes */}
+                  <Tab.Screen name="Expense" component={ExpenseScreen} /> 
+                  <Tab.Screen name="Income" component={IncomeScreen} /> 
+                  
                   <Tab.Screen name="Calendar" component={CalendarScreen} /> 
                 </Tab.Navigator>
               </NavigationContainer>
