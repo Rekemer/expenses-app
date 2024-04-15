@@ -47,6 +47,31 @@ return (<View style={styles.container}>
 </View>)
 } 
 
+function IncomeScreen({  navigation }){
+  const {
+       displayValue,
+       date,
+       handleCategoryInput,
+} = useCalculator(); // Use useCalculator hook to access state and functions
+return (<View style={styles.container}>
+  <View >
+    <Text style={styles.displayDate}>{date}</Text>
+  </View>
+  <Display value={displayValue} />
+  <TouchableOpacity style={styles.buttonCategory}>
+    <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Calculator')} >Calculation</Text>
+  </TouchableOpacity>
+  <View style={styles.buttonContainer}>
+
+    <View style={styles.row}>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.savings)} image={CATEGORY.savings }/>
+       <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.deposit)} image={CATEGORY.deposit }/>
+      <CategoryButton onPress={ () =>  handleCategoryInput(CATEGORY.salary)} image={CATEGORY.salary }/> 
+    </View>
+  </View>
+</View>)
+} 
+
 function CalendarScreen({navigator})
 {
   return <Calendar/>
@@ -98,7 +123,8 @@ function HomeScreen({ navigation }) {
             </View>
             <Display value={displayValue} />
             <TouchableOpacity style={styles.buttonCategory}>
-              <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Expense')} >Pick Category</Text>
+               {/* <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Expense')} >Pick Category</Text>  */}
+               <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Income')} >Pick Category</Text> 
             </TouchableOpacity>
             <View style={styles.buttonContainer}>
 
@@ -180,6 +206,7 @@ function Calculator() {
                   <Tab.Screen name="Calculator" component={HomeScreen} />
                   {/* so tab is not shown */}
                   <Tab.Screen name="Expense" component={ExpenseScreen} options={{ tabBarButton: () => null }}/> 
+                  <Tab.Screen name="Income" component={IncomeScreen} options={{ tabBarButton: () => null }}/> 
                   <Tab.Screen name="Calendar" component={CalendarScreen} /> 
                 </Tab.Navigator>
               </NavigationContainer>
@@ -270,6 +297,7 @@ const styles = StyleSheet.create({
       elevation: 3,
       margin: 1,
       padding: 2,
+      maxHeight: 100,
   },
   buttonCategory:
   {

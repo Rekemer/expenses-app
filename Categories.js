@@ -35,4 +35,16 @@ export const CATEGORY = {
       text: 'house', 
       uri: require('./assets/house.png')
     },
+    salary: {
+      text: 'salary', 
+      uri: require('./assets/salary.png')
+    },
+    deposit: {
+      text: 'deposit', 
+      uri: require('./assets/deposits.png')
+    },
+    savings: {
+      text: 'savings', 
+      uri: require('./assets/savings.png')
+    },
   };
