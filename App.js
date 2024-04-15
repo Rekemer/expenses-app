@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect  } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity,Image  }
     from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -10,6 +10,7 @@ import { useCalendar,Calendar,CalendarProvider } from './Calendar';
 import { useCalendarTime,CalendarTimeProvider } from './RandomtCalendarTime';
 import { CATEGORY} from './Categories';
 import { userId} from './User';
+import { Alert } from 'react-native';
 function ExpenseScreen({  navigation }){
   const {
        displayValue,
@@ -191,6 +192,17 @@ function Calculator() {
       
 export default function App() {
 
+  useEffect(() => {
+    // Display the warning message when the component mounts
+    Alert.alert(
+      'Warning',
+      'To initialize application click clear AsyncStorage',
+      [
+        { text: 'OK', onPress: () => console.log('OK Pressed') }
+      ],
+      { cancelable: false }
+    );
+  }, []); // Empty dependency array ensures the effect runs only once
   return (
       <Calculator
       />

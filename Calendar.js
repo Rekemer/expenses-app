@@ -3,6 +3,7 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet,ScrollView } from 'r
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {userId} from './User'
 import { getDay, getMonth } from './RandomtCalendarTime';
+
 const months = [
   'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'
@@ -98,6 +99,9 @@ export const Calendar = () => {
       <Text>{`Amount: $${item.displayValue}`}</Text>
       {mode === 'category' && (
   <   Text>Date: {item.date}</Text>
+    )}
+      {mode === 'date' && (
+  <   Text>Category: {item.category}</Text>
     )}
     </View>);
     
