@@ -1,55 +1,67 @@
 import React from "react";
-import {View, Text, StyleSheet, FlatList, Pressable, Image } from "react-native";
+import { View, Text, StyleSheet, FlatList, Pressable, Image, SafeAreaView } from "react-native";
 import { useState } from "react";
-import Chart from "../Chart";
+import PieChart from "react-native-pie-chart";
+import { Dimensions } from "react-native";
+
+const screenWidth = Dimensions.get("window").width;
 
 export const Home = () => {
   const [categories, setCategories] = useState([
-    {sum: 322, color: "#666666"},
-    {sum: 228, color: "#777777"},
-    {sum: 1000, color: "#888888"},
-    {sum: 500, color: "#999999"},
-    {sum: 78, color: "#AAAAAA"},
+    { title: 'Food', sum: 322, color: "#666666", id: 'c1'},
+    { title: 'Car', sum: 228, color: "#777777" , id: 'c2'},
+    { title: 'Pets', sum: 1000, color: "#888888", id: 'c3'},
+    { title: 'Sports', sum: 500, color: "#999999", id: 'c4'},
+    { title: 'Health', sum: 78, color: "#AAAAAA", id: 'c5'},
   ])
 
-  const [expese, setExpense] = useState([
-    {date: '11.04.2024', amount: '20', key: '1'},
-    {date: '10.04.2024', amount: '10', key: '2'},
-    {date: '9.04.2024', amount: '10', key: '3'},
-    {date: '9.04.2024', amount: '10', key: '4'},
-    {date: '9.04.2024', amount: '10', key: '5'},
-    {date: '9.04.2024', amount: '10', key: '6'},
-    {date: '9.04.2024', amount: '10', key: '7'},
-    {date: '9.04.2024', amount: '10', key: '8'},
-    {date: '9.04.2024', amount: '10', key: '9'},
-    {date: '9.04.2024', amount: '10', key: '10'},
-  ])
-
-  return(
-    <View style={styles.wrapper}>
-      {/* <View style={styles.topCalendar}>
-        <Text style={styles.topCalendarText}>March</Text>
-        <Text style={styles.topCalendarText}>April</Text>
-        <Text style={styles.topCalendarText}>May</Text>
-      </View> */}
-      <Chart style={styles.doughnut} categories={categories}></Chart>
-      <FlatList style={styles.historylist} data = {expese} renderItem={({item}) => (
-        <View style={styles.itemframe}>
-          <Text style={styles.dateText}>{item.date}</Text>
-          <Text style={styles.amountText}>{item.amount}$</Text>
-        </View>
-      )}/>
+  return (
+    <SafeAreaView style={styles.wrapper}>
+      <Chart categories={categories}></Chart>
+      <FlatList
+      style={[{width: screenWidth, height: 400, backgroundColor: '#ffffff'}]}
+      renderItem={({item}) => <Item title={item.title} color={item.color} keyExtractor={item => item.id}/>}
+      data={categories}
+      />
       <View style={styles.bottomPanel}>
         <Pressable style={styles.bottomButton}>
-          <Image  source={require('../assets/MinusButton.svg')}/>
+          <Image style={styles.bottomButton} source={require('../assets/Minus button.png')} />
         </Pressable>
         <Pressable style={styles.bottomButton}>
-          <Image style={styles.bottomButton} source={require('../assets/PlusButton.svg')}/>
+          <Image style={styles.bottomButton} source={require('../assets/Add button.png')} />
         </Pressable>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
+
+const Chart = ({ categories }) => {
+  const widthAndHeight = 200;
+  const cat = [...categories];
+  const series = cat.map(x => x = x.sum);
+  const colors = cat.map(x => x = x.color);
+
+  return (
+    <View style={[styles.container, {padding: 20}]}>
+      <PieChart style={styles.doughnut}
+        widthAndHeight={widthAndHeight}
+        series={series}
+        sliceColor={colors}
+        coverRadius={0.55}
+        coverFill={'#FFF'}
+      />
+    </View>
+  );
+}
+
+const Item = ({title, color}) => { // Fixed 'item' to 'Item'
+  return (
+    <View style={styles.legendItem}>
+      <View style={[styles.legendCircle, {backgroundColor: color}]}></View> 
+      <Text style={[{fontSize: 20}]}>{title}</Text>
+    </View>
+  )
+}
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -110,7 +122,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   bottomPanel: {
-    flex: 1,
+    // flex: 1,
     // flexShrink: 1,
     padding: 30,
     // flexGrow: 0,
@@ -124,8 +136,19 @@ const styles = StyleSheet.create({
   bottomButton: {
     height: 50,
     width: 50,
-    borderColor: 'blue',
-    borderWidth: 2,
+  },
+  legendItem: {
+    flex: 1,
+    flexDirection: 'row',
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+  },
+  legendCircle: {
+    height: 16,
+    width: 16,
+    borderRadius: 50,
+    marginRight: 15,
   }
 });
 

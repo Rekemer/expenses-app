@@ -20,7 +20,6 @@ export default function Chart({ categories }) {
       />
     </View>
   );
-
 }
 
 const styles = StyleSheet.create({
