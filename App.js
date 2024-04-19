@@ -1,6 +1,4 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { Home } from './Screens/Home';
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image }
   from 'react-native';
@@ -37,29 +35,27 @@ function Calculator() {
 }
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <Home />
-    </View>
-  );
+  useEffect(() => {
+    // Display the warning message when the component mounts
+    Alert.alert(
+      'Warning',
+      'To initialize application click clear AsyncStorage',
+      [
+        { text: 'OK', onPress: () => console.log('OK Pressed') }
+      ],
+      { cancelable: false }
+    );
+  }, []); // Empty dependency array ensures the effect runs only once
+  
+  
+
+
+    return (
+      <Calculator/>
+    
+    );
+  
 }
 
-useEffect(() => {
-  // Display the warning message when the component mounts
-  Alert.alert(
-    'Warning',
-    'To initialize application click clear AsyncStorage',
-    [
-      { text: 'OK', onPress: () => console.log('OK Pressed') }
-    ],
-    { cancelable: false }
-  );
-}, []); // Empty dependency array ensures the effect runs only once
-return (
-  <Calculator
-  />
-
-);
 
 
