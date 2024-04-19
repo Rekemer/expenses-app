@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text, StyleSheet, Animated, Dimensions, SafeAre
 
 const screenWidth = Dimensions.get("window").width;
 
-const BottomPanelToggle = () => {
+const BottomPanelToggle = ({navigation}) => {
   const [isPanelVisible, setPanelVisible] = useState(false);
   const slideAnimation = new Animated.Value(1);
 
@@ -43,13 +43,13 @@ const BottomPanelToggle = () => {
           
           {/* Content of the bottom panel*/}
           <SafeAreaView style={styles.bottomButtonWrapper}>
-            <TouchableOpacity style={styles.bottomPanelButton}>
+            <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator',{ isExpense: false })}>
               <Image style={[styles.bottomPanelButton, {resizeMode: 'stretch', position: 'absolute', top: -15, left: -15}]} source={require('../../assets/Add button.png')}></Image>
             </TouchableOpacity>
             <View style={styles.bottomBalancePanel}>
               <Text style={[{fontSize: 16, fontWeight: 'bold'}]}>Balance: </Text>
             </View>
-            <TouchableOpacity style={styles.bottomPanelButton}>
+            <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator',{ isExpense: true })}>
               <Image style={[styles.bottomPanelButton, {resizeMode: 'stretch', position: 'absolute', top: -15, left: -15}]} source={require('../../assets/Minus button.png')}></Image>
             </TouchableOpacity>
           </SafeAreaView>
