@@ -26,29 +26,31 @@ const BottomPanelToggle = () => {
 
   const panelTranslateY = slideAnimation.interpolate({
     inputRange: [0, 1],
-    outputRange: [400, 0],
+    outputRange: [200, 0],
   });
 
   return (
     <View style={styles.container}>
-      {/* Main Content */}
-      <View style={styles.mainContent}>
-        <Text style={styles.mainText}>Your main content here</Text>
-      </View>
 
       {/* Bottom Panel */}
       {isPanelVisible && (
         <Animated.View
           style={[styles.bottomPanel, { transform: [{ translateY: panelTranslateY }]}]}>
+          {/* Close bottom panel button */}
           <TouchableOpacity onPress={togglePanel}>
             <Text style={styles.panelText}>Close Panel</Text>
           </TouchableOpacity>
-          <SafeAreaView>
+          
+          {/* Content of the bottom panel*/}
+          <SafeAreaView style={styles.bottomButtonWrapper}>
             <TouchableOpacity style={styles.bottomPanelButton}>
-              <Image></Image>
+              <Image source={require('../assets/Add button.png')}></Image>
             </TouchableOpacity>
+            <View style={styles.bottomBalancePanel}>
+              <Text style={[{fontSize: 16, fontWeight: 'bold'}]}>Balance: </Text>
+            </View>
             <TouchableOpacity style={styles.bottomPanelButton}>
-              <Image ></Image>
+              <Image source={require('../assets/Minus button.png')}></Image>
             </TouchableOpacity>
           </SafeAreaView>
         </Animated.View>
@@ -57,7 +59,7 @@ const BottomPanelToggle = () => {
       {/* Toggle Button */}
       {!isPanelVisible && (
         <TouchableOpacity onPress={togglePanel} style={styles.toggleButton}>
-          <Text style={styles.buttonText}>Show Panel</Text>
+          <Image></Image>
         </TouchableOpacity>
       )}
     </View>
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     position: 'absolute',
     bottom: 0,
-    left: -100,
+    left: -screenWidth/2,
     right: 0,
     backgroundColor: '#e0e0e0',
     padding: 20,
@@ -107,10 +109,19 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
   },
+  bottomButtonWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+  },
   bottomPanelButton: {
-    height: 50,
-    width: 50,
+    height: 48,
+    width: 48,
     margin: 10,
+  },
+  bottomBalancePanel: {
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 
