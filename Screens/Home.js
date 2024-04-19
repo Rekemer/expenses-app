@@ -7,7 +7,7 @@ import BottomPanelToggle from "./Modules/BottomPanel";
 
 const screenWidth = Dimensions.get("window").width;
 
-export const Home = () => {
+export const Home = ({categoryData}) => {
   const [categories, setCategories] = useState([
     { title: 'Food', sum: 322, color: "#666666", id: 'c1' },
     { title: 'Car', sum: 228, color: "#777777", id: 'c2' },
@@ -25,7 +25,7 @@ export const Home = () => {
         renderItem={({ item }) => <Item title={item.title} color={item.color} keyExtractor={item => item.id} />}
         data={categories}
       />
-      <BottomPanelToggle></BottomPanelToggle>
+      <BottomPanelToggle/>
     </SafeAreaView>
   );
 };
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   legendItem: {
     flex: 1,
     flexDirection: 'row',
-    padding: 20,
+    padding: 14,
     marginVertical: 8,
     marginHorizontal: 16,
     alignItems: 'center'

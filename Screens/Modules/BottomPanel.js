@@ -38,19 +38,19 @@ const BottomPanelToggle = () => {
           style={[styles.bottomPanel, { transform: [{ translateY: panelTranslateY }]}]}>
           {/* Close bottom panel button */}
           <TouchableOpacity onPress={togglePanel} style={[{alignSelf: 'center', height: 20, width: 100}]}>
-            <Image style={[{height: 12, width: 20, resizeMode: 'stretch', alignSelf: 'center'}]} source={require('../assets/ArrowDown.png')}/>
+            <Image style={[{height: 12, width: 20, resizeMode: 'stretch', alignSelf: 'center'}]} source={require('../../assets/ArrowDown.png')}/>
           </TouchableOpacity>
           
           {/* Content of the bottom panel*/}
           <SafeAreaView style={styles.bottomButtonWrapper}>
             <TouchableOpacity style={styles.bottomPanelButton}>
-              <Image style={[styles.bottomPanelButton, {resizeMode: 'stretch', position: 'absolute', top: -15, left: -15}]} source={require('../assets/Add button.png')}></Image>
+              <Image style={[styles.bottomPanelButton, {resizeMode: 'stretch', position: 'absolute', top: -15, left: -15}]} source={require('../../assets/Add button.png')}></Image>
             </TouchableOpacity>
             <View style={styles.bottomBalancePanel}>
               <Text style={[{fontSize: 16, fontWeight: 'bold'}]}>Balance: </Text>
             </View>
             <TouchableOpacity style={styles.bottomPanelButton}>
-              <Image style={[styles.bottomPanelButton, {resizeMode: 'stretch', position: 'absolute', top: -15, left: -15}]} source={require('../assets/Minus button.png')}></Image>
+              <Image style={[styles.bottomPanelButton, {resizeMode: 'stretch', position: 'absolute', top: -15, left: -15}]} source={require('../../assets/Minus button.png')}></Image>
             </TouchableOpacity>
           </SafeAreaView>
         </Animated.View>
@@ -59,7 +59,7 @@ const BottomPanelToggle = () => {
       {/* Toggle Button */}
       {!isPanelVisible && (
         <TouchableOpacity onPress={togglePanel} style={styles.toggleButton}>
-          <Image style={[{height: 12, width: 20, resizeMode: 'stretch'}]} source={require('../assets/ArrowUp.png')}></Image>
+          <Image style={[{height: 12, width: 20, resizeMode: 'stretch'}]} source={require('../../assets/ArrowUp.png')}></Image>
         </TouchableOpacity>
       )}
     </View>
