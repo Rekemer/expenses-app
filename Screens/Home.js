@@ -53,7 +53,7 @@ const Item = ({ title, color }) => {
   return (
     <View style={styles.legendItem}>
       <View style={[styles.legendCircle, { backgroundColor: color }]}></View>
-      <Text style={[{ fontSize: 20 }]}>{title}</Text>
+      <Text style={[{ fontSize: 20 }]}>{title}: %</Text>
     </View>
   )
 }
