@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, SafeAreaView} from "react-native";
 import { useState, useRef } from "react";
 import PieChart from "react-native-pie-chart";
 import { Dimensions } from "react-native";
-import BottomPanelToggle from "./BottomPanel";
+import BottomPanelToggle from "./Modules/BottomPanel";
 
 const screenWidth = Dimensions.get("window").width;
 
