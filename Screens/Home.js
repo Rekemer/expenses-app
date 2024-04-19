@@ -1,4 +1,4 @@
-import React from "react";
+import React, { version } from "react";
 import { View, Text, StyleSheet, FlatList, SafeAreaView} from "react-native";
 import { useState, useRef } from "react";
 import PieChart from "react-native-pie-chart";
@@ -7,14 +7,66 @@ import BottomPanelToggle from "./Modules/BottomPanel";
 
 const screenWidth = Dimensions.get("window").width;
 
+const categoryColors =[
+  {category: "Food", color: "blue"},
+  {category: "Transport", color: "yellow"},
+  {category: "Health", color: "red"},
+  {category: "Pets", color: "green"},
+  {category: "Bills", color: "cyan"},
+  {category: "Sports", color: "light-blue"},
+  {category: "Taxi", color: "orange"},
+  {category: "Eating-out", color: "magenta"},
+];
+
+const expenses = [];
+
+_retrieveData = async () => {
+  try {
+    const value = await AsyncStorage.getItem(category);
+    if (value !== null) {
+      // We have data!!
+      console.log(value);
+      categories.push(value);
+    }
+  } catch (error) {
+    console.log("Error fetching data: ", error);
+  }
+};
+
+const convertData = (expenses) => {
+  const categoryData = {};
+  
+  expenses.forEach((expense) => {
+    const {date, category, displayValue, id, IsExpense} = expense;
+    if (categoryData[category] && IsExpense) {
+      categoryData[category] += displayValue;
+    } else if (categoryData[category] && !IsExpense) {
+
+    } else {
+      categoryData[category] == displayValue;
+    }
+  });
+
+  const result = Object.keys(categoryData).map((category) => ({
+    category,
+    sum: categoryData[category],
+  }));
+
+  return result;
+};
+
+const convertColors = () => {
+
+};
+
 export const Home = ({categoryData}) => {
-  const [categories, setCategories] = useState([
-    { title: 'Food', sum: 322, color: "#666666", id: 'c1' },
-    { title: 'Car', sum: 228, color: "#777777", id: 'c2' },
-    { title: 'Pets', sum: 1000, color: "#888888", id: 'c3' },
-    { title: 'Sports', sum: 500, color: "#999999", id: 'c4' },
-    { title: 'Health', sum: 78, color: "#AAAAAA", id: 'c5' },
-  ])
+  // const [categories, setCategories] = useState([
+  //   { category: 'Food', sum: 322, color: "#666666", id: 'c1' },
+  //   { category: 'Car', sum: 228, color: "#777777", id: 'c2' },
+  //   { category: 'Pets', sum: 1000, color: "#888888", id: 'c3' },
+  //   { category: 'Sports', sum: 500, color: "#999999", id: 'c4' },
+  //   { category: 'Health', sum: 78, color: "#AAAAAA", id: 'c5' },
+  // ])
 
 
   return (
@@ -22,7 +74,7 @@ export const Home = ({categoryData}) => {
       <Chart categories={categories}></Chart>
       <FlatList
         style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, }]}
-        renderItem={({ item }) => <Item title={item.title} color={item.color} keyExtractor={item => item.id} />}
+        renderItem={({ item }) => <Item title={item.category} color={item.color} keyExtractor={item => item.id} />}
         data={categories}
       />
       <BottomPanelToggle/>
