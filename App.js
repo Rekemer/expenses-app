@@ -6,7 +6,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image }
   from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-
+import { Home } from './Screens/Home';
 import { CalculatorProvider } from './Calculator';
 import { CalendarTimeProvider } from './RandomtCalendarTime';
 import { CalendarProvider } from './Calendar';
@@ -21,7 +21,7 @@ function Calculator() {
         <CalculatorProvider>
           <NavigationContainer>
             <Tab.Navigator>
-              <Tab.Screen name="Calculator" component={HomeScreen} />
+              <Tab.Screen name="Calculator" component={Home} />
               {/* those tabs are shown only for debug purposes */}
               <Tab.Screen name="Expense" component={ExpenseScreen} />
               <Tab.Screen name="Income" component={IncomeScreen} />
