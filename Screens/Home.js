@@ -1,36 +1,31 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList, Pressable, Image, SafeAreaView } from "react-native";
-import { useState } from "react";
+import { View, Text, StyleSheet, FlatList, Pressable, Image, SafeAreaView, Animated } from "react-native";
+import { useState, useRef } from "react";
 import PieChart from "react-native-pie-chart";
 import { Dimensions } from "react-native";
+import BottomPanelToggle from "./BottomPanel";
 
 const screenWidth = Dimensions.get("window").width;
 
 export const Home = () => {
   const [categories, setCategories] = useState([
-    { title: 'Food', sum: 322, color: "#666666", id: 'c1'},
-    { title: 'Car', sum: 228, color: "#777777" , id: 'c2'},
-    { title: 'Pets', sum: 1000, color: "#888888", id: 'c3'},
-    { title: 'Sports', sum: 500, color: "#999999", id: 'c4'},
-    { title: 'Health', sum: 78, color: "#AAAAAA", id: 'c5'},
+    { title: 'Food', sum: 322, color: "#666666", id: 'c1' },
+    { title: 'Car', sum: 228, color: "#777777", id: 'c2' },
+    { title: 'Pets', sum: 1000, color: "#888888", id: 'c3' },
+    { title: 'Sports', sum: 500, color: "#999999", id: 'c4' },
+    { title: 'Health', sum: 78, color: "#AAAAAA", id: 'c5' },
   ])
+
 
   return (
     <SafeAreaView style={styles.wrapper}>
       <Chart categories={categories}></Chart>
       <FlatList
-      style={[{width: screenWidth, height: 400, backgroundColor: '#ffffff'}]}
-      renderItem={({item}) => <Item title={item.title} color={item.color} keyExtractor={item => item.id}/>}
-      data={categories}
+        style={[{ width: screenWidth, height: 400, backgroundColor: '#ffffff' }]}
+        renderItem={({ item }) => <Item title={item.title} color={item.color} keyExtractor={item => item.id} />}
+        data={categories}
       />
-      <View style={styles.bottomPanel}>
-        <Pressable style={styles.bottomButton}>
-          <Image style={styles.bottomButton} source={require('../assets/Minus button.png')} />
-        </Pressable>
-        <Pressable style={styles.bottomButton}>
-          <Image style={styles.bottomButton} source={require('../assets/Add button.png')} />
-        </Pressable>
-      </View>
+      <BottomPanelToggle></BottomPanelToggle>
     </SafeAreaView>
   );
 };
@@ -42,7 +37,7 @@ const Chart = ({ categories }) => {
   const colors = cat.map(x => x = x.color);
 
   return (
-    <View style={[styles.container, {padding: 20}]}>
+    <View style={[styles.container, { padding: 20 }]}>
       <PieChart style={styles.doughnut}
         widthAndHeight={widthAndHeight}
         series={series}
@@ -54,11 +49,11 @@ const Chart = ({ categories }) => {
   );
 }
 
-const Item = ({title, color}) => { // Fixed 'item' to 'Item'
+const Item = ({ title, color }) => {
   return (
     <View style={styles.legendItem}>
-      <View style={[styles.legendCircle, {backgroundColor: color}]}></View> 
-      <Text style={[{fontSize: 20}]}>{title}</Text>
+      <View style={[styles.legendCircle, { backgroundColor: color }]}></View>
+      <Text style={[{ fontSize: 20 }]}>{title}</Text>
     </View>
   )
 }
@@ -77,31 +72,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     margin: 10,
   },
-  topCalendar: {
-    marginTop: 20,
-    flex: 1,
-    position: 'absolute',
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#cccccc",
-    borderRadius: 12,
-    height: 25,
-    width: 300,
-    overflow: "hidden",
-  },
-  topCalendarText: {
-    fontWeight: "bold",
-  },
   doughnut: {
     // position: "relative",
-  },
-  historylist: {
-    margin: 10,
-    borderTopWidth: 2,
-    borderTopColor: "#bbbbbb",
-    width: "auto",
-    height: 50,
   },
   itemframe: {
     marginVertical: 7,
@@ -121,19 +93,7 @@ const styles = StyleSheet.create({
   amountText: {
     fontWeight: 'bold',
   },
-  bottomPanel: {
-    // flex: 1,
-    // flexShrink: 1,
-    padding: 30,
-    // flexGrow: 0,
-    width: 300,
-    height: 120,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    marginBottom: 20,
-  },
-  bottomButton: {
+  bottomPanelButton: {
     height: 50,
     width: 50,
   },
@@ -143,6 +103,7 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
+    alignItems: 'center'
   },
   legendCircle: {
     height: 16,
