@@ -65,8 +65,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     // justifyContent: 'flex-end',
     gap: 5,
-    borderColor: 'red',
-    borderWidth: 2,
   },
   title: {
     fontSize: 24,

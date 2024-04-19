@@ -37,20 +37,20 @@ const BottomPanelToggle = () => {
         <Animated.View
           style={[styles.bottomPanel, { transform: [{ translateY: panelTranslateY }]}]}>
           {/* Close bottom panel button */}
-          <TouchableOpacity onPress={togglePanel}>
-            <Text style={styles.panelText}>Close Panel</Text>
+          <TouchableOpacity onPress={togglePanel} style={[{alignSelf: 'center', height: 20, width: 100}]}>
+            <Image style={[{height: 12, width: 20, resizeMode: 'stretch', alignSelf: 'center'}]} source={require('../assets/ArrowDown.png')}/>
           </TouchableOpacity>
           
           {/* Content of the bottom panel*/}
           <SafeAreaView style={styles.bottomButtonWrapper}>
             <TouchableOpacity style={styles.bottomPanelButton}>
-              <Image source={require('../assets/Add button.png')}></Image>
+              <Image style={[styles.bottomPanelButton, {resizeMode: 'stretch', position: 'absolute', top: -15, left: -15}]} source={require('../assets/Add button.png')}></Image>
             </TouchableOpacity>
             <View style={styles.bottomBalancePanel}>
               <Text style={[{fontSize: 16, fontWeight: 'bold'}]}>Balance: </Text>
             </View>
             <TouchableOpacity style={styles.bottomPanelButton}>
-              <Image source={require('../assets/Minus button.png')}></Image>
+              <Image style={[styles.bottomPanelButton, {resizeMode: 'stretch', position: 'absolute', top: -15, left: -15}]} source={require('../assets/Minus button.png')}></Image>
             </TouchableOpacity>
           </SafeAreaView>
         </Animated.View>
@@ -59,7 +59,7 @@ const BottomPanelToggle = () => {
       {/* Toggle Button */}
       {!isPanelVisible && (
         <TouchableOpacity onPress={togglePanel} style={styles.toggleButton}>
-          <Image></Image>
+          <Image style={[{height: 12, width: 20, resizeMode: 'stretch'}]} source={require('../assets/ArrowUp.png')}></Image>
         </TouchableOpacity>
       )}
     </View>
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: -screenWidth/2,
     right: 0,
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#d0d0d0',
     padding: 20,
     width: screenWidth,
   },
@@ -98,6 +98,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   toggleButton: {
+    justifyContent: 'center',
     backgroundColor: 'grey',
     paddingVertical: 15,
     paddingHorizontal: 30,
@@ -118,10 +119,13 @@ const styles = StyleSheet.create({
     height: 48,
     width: 48,
     margin: 10,
+    borderRadius: 50,
+    
   },
   bottomBalancePanel: {
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    marginHorizontal: 20,
   }
 });
 
