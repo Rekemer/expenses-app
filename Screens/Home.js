@@ -21,7 +21,7 @@ export const Home = () => {
     <SafeAreaView style={styles.wrapper}>
       <Chart categories={categories}></Chart>
       <FlatList
-        style={[{ width: screenWidth, height: 400, backgroundColor: '#ffffff' }]}
+        style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, }]}
         renderItem={({ item }) => <Item title={item.title} color={item.color} keyExtractor={item => item.id} />}
         data={categories}
       />
