@@ -171,9 +171,6 @@ export default function App() {
         <Tab.Screen name="Calendar" component={CalendarScreen}></Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
-
-    // <Calculator
-    // />
   );
 
 }
