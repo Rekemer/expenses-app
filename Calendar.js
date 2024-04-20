@@ -1,8 +1,9 @@
 import React, {createContext,useContext, useState ,useEffect} from 'react';
-import { View, Text, FlatList, TouchableOpacity, StyleSheet,ScrollView } from 'react-native';
+import { Image,View, Text, FlatList, TouchableOpacity, StyleSheet,ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {userId} from './User'
 import { getDay, getMonth } from './RandomtCalendarTime';
+import { getCategoryByText } from './Categories';
 
 const months = [
   'January', 'February', 'March', 'April', 'May', 'June',
@@ -95,38 +96,52 @@ export const Calendar = () => {
     );
   };
   const renderExpense = ({ item }) => {
-    return (<View style={{ marginLeft: 20 }}>
-      <Text style={{ color: item.IsExpense ?  'red': 'green' }}>{`Amount: $${item.displayValue}`}</Text>
-      {mode === 'category' && (
-  <   Text>Date: {item.date}</Text>
-    )}
-      {mode === 'date' && (
-  <   Text>Category: {item.category}</Text>
-    )}
-    </View>);
-    
-    };
-  const renderCategoryHeader = ({ item }) => {
-    var isExpanded = false;
-    if (mode === 'category')
-    {
-      isExpanded = item.category === expandedCategory;
-    }
-    else
-    {
-      isExpanded = item.date === expandedCategory;
-    }
-   // console.log('item date ' + item.date);
-   // console.log('ex ' + expandedCategory);
-    //console.log('isExpanded ' +isExpanded);
     return (
-      <TouchableOpacity onPress={() => toggleCategory(mode  === 'date'? item.date :item.category )}>
-        <Text style={{ color: item.IsExpense ?  'red': 'green' }}>{mode === 'date' ? getDay(item.date) : item.category}</Text>
+      <View style={styles.expenseContainer}>
+        {/* Expense Image */}
+        {mode !== 'category' && 
+        <Image
+        source={getCategoryByText(item.category).uri} // Replace 'expense_icon.png' with the path to your expense image
+        style={styles.expenseImage}
+      />
+      }
+       
+        {/* Expense Details */}
+        <View style={styles.expenseDetails}>
+          <Text style={[styles.amountText, { color: item.IsExpense ? 'red' : 'green' }]}>
+            {`Amount: $${item.displayValue}`}
+          </Text>
+          {mode === 'category' && (
+            <Text style={styles.detailText}>Date: {item.date}</Text>
+          )}
+          {mode === 'date' && (
+            <Text style={styles.detailText}>Category: {item.category}</Text>
+          )}
+        </View>
+      </View>
+    );
+  };
+  const renderCategoryHeader = ({ item }) => {
+    const isCategory = mode === 'category';
+    const isExpanded = isCategory ? item.category === expandedCategory : item.date === expandedCategory;
+    const imageUri = isCategory ? getCategoryByText(item.category).uri : require('./assets/date.png');
+    return (
+      <TouchableOpacity onPress={() => toggleCategory(mode === 'date' ? item.date : item.category)}>
+        <View style={styles.headerContainer}>
+          {/* Category Icon */}
+          <Image
+            source={imageUri} // Use the uri property from the category object
+            style={styles.categoryIcon}
+          />
+          {/* Category Text */}
+          <Text style={[styles.categoryText, { color: item.IsExpense ? 'red' : 'green' }]}>
+            {mode === 'date' ? getDay(item.date) : item.category}
+          </Text>
+        </View>
+        {/* Render expenses if expanded */}
         {isExpanded && (
           <FlatList
-            data={expenses.filter((expense) =>  mode === 'date' ?  
-            expense.date === item.date : 
-            expense.category === item.category)}
+            data={expenses.filter((expense) => mode === 'date' ? expense.date === item.date : expense.category === item.category)}
             renderItem={renderExpense}
             keyExtractor={(expense) => expense.id.toString()}
           />
@@ -220,5 +235,52 @@ const styles = StyleSheet.create({
     color: 'blue',
     marginRight: 20,
   },
+
+  headerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#CCCCCC',
+  },
+  categoryIcon: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+    marginRight: 10,
+  },
+  categoryText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+
+  expenseContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#CCCCCC',
+  },
+  expenseImage: {
+    width: 25,
+    height: 25,
+    resizeMode: 'contain',
+    marginRight: 20,
+  },
+  expenseDetails: {
+    flex: 1,
+  },
+  amountText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  detailText: {
+    fontSize: 16,
+    marginTop: 5,
+    color: '#666666',
+  },
+
 });
 

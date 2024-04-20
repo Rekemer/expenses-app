@@ -60,3 +60,21 @@ export const CATEGORY = {
       uri: require('./assets/savings.png')
     },
   };
+  export const getCategoryByText = (text) => {
+    const lowerCaseText = text.toLowerCase();
+  
+    // Iterate through each category in the CATEGORY object
+    for (const key in CATEGORY) {
+      if (CATEGORY.hasOwnProperty(key)) {
+        const category = CATEGORY[key];
+        
+        // Check if the category text matches the provided text (case-insensitive)
+        if (category.text.toLowerCase() === lowerCaseText) {
+          return category; // Return the matching category object
+        }
+      }
+    }
+  
+    // If no matching category is found, return null
+    return null;
+  };
