@@ -51,7 +51,7 @@ export function ExpenseScreen({ navigation }) {
     </View>
     <Display value={displayValue} />
     <TouchableOpacity style={styles.buttonCategory}>
-      <Text style={styles.clearButtonText} onPress={() => navigation.navigate('Calculator')} >Calculation</Text>
+      <Text style={styles.clearButtonText} onPress={() => navigation.goBack()} >Calculation</Text>
     </TouchableOpacity>
     <View style={styles.buttonContainer}>
 
@@ -87,7 +87,7 @@ export function IncomeScreen({ navigation }) {
     </View>
     <Display value={displayValue} />
     <TouchableOpacity style={styles.buttonCategory}>
-      <Text style={styles.clearButtonText} onPress={() => navigation.navigate('Calculator')} >Calculation</Text>
+      <Text style={styles.clearButtonText} onPress={() => navigation.goBack()} >Calculation</Text>
     </TouchableOpacity>
     <View style={styles.buttonContainer}>
 
@@ -121,7 +121,7 @@ const ClearAsyncStorageButton = () => {
     <ClearButton onPress={clearAsyncStorage} text='Clear AsyncStorage' />
   );
 };
-export function HomeScreen({ navigation }) {
+export function CalculatorScreen({ route,navigation }) {
   const {
     displayValue,
     date,
@@ -131,8 +131,8 @@ export function HomeScreen({ navigation }) {
     handleDot,
     handleClear,
   } = useCalculator(); // Use useCalculator hook to access state and functions
+  const {isExpense}  =route.params;
   const { updateRandomTime } = useCalendarTime();
-  //console.log("FUCK");
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row' }}>
@@ -151,10 +151,15 @@ export function HomeScreen({ navigation }) {
         </TouchableOpacity>
       </View>
       <Display value={displayValue} />
-      <TouchableOpacity style={styles.buttonCategory}>
-        {/* <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Expense')} >Pick Category</Text>  */}
-        {/* <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Income')} >Pick Category</Text>  */}
-      </TouchableOpacity>
+      { isExpense ? ( <TouchableOpacity style={styles.buttonCategory}>
+        <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Expense')} >Pick Category</Text> 
+      </TouchableOpacity>) :
+
+       ( <TouchableOpacity style={styles.buttonCategory}>
+        <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Income')} >Pick Category</Text> 
+      </TouchableOpacity>)
+      }
+      
       <View style={styles.buttonContainer}>
 
         <View style={styles.row}>
