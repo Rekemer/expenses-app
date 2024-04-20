@@ -121,7 +121,7 @@ const ClearAsyncStorageButton = () => {
     <ClearButton onPress={clearAsyncStorage} text='Clear AsyncStorage' />
   );
 };
-export function CalculatorScreen({ navigation, isExpense }) {
+export function CalculatorScreen({ route,navigation }) {
   const {
     displayValue,
     date,
@@ -131,8 +131,8 @@ export function CalculatorScreen({ navigation, isExpense }) {
     handleDot,
     handleClear,
   } = useCalculator(); // Use useCalculator hook to access state and functions
+  const {isExpense}  =route.params;
   const { updateRandomTime } = useCalendarTime();
-  console.log('isExpense ' + isExpense);
   return (
     <View style={styles.container}>
       <View style={{ flexDirection: 'row' }}>
