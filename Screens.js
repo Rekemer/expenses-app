@@ -51,7 +51,7 @@ export function ExpenseScreen({ navigation }) {
     </View>
     <Display value={displayValue} />
     <TouchableOpacity style={styles.buttonCategory}>
-      <Text style={styles.clearButtonText} onPress={() => navigation.navigate('Calculator')} >Calculation</Text>
+      <Text style={styles.clearButtonText} onPress={() => navigation.goBack()} >Calculation</Text>
     </TouchableOpacity>
     <View style={styles.buttonContainer}>
 
@@ -87,7 +87,7 @@ export function IncomeScreen({ navigation }) {
     </View>
     <Display value={displayValue} />
     <TouchableOpacity style={styles.buttonCategory}>
-      <Text style={styles.clearButtonText} onPress={() => navigation.navigate('Calculator')} >Calculation</Text>
+      <Text style={styles.clearButtonText} onPress={() => navigation.goBack()} >Calculation</Text>
     </TouchableOpacity>
     <View style={styles.buttonContainer}>
 

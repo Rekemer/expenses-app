@@ -18,13 +18,11 @@ function Calculator() {
       <CalendarTimeProvider>
         <CalculatorProvider>
           <NavigationContainer>
-            <Tab.Navigator>
+            <Tab.Navigator backBehavior="history">
               <Tab.Screen name="Home" component={Home} />
-              {/* those tabs are shown only for debug purposes */}
-              <Tab.Screen name="Expense" component={ExpenseScreen} />
-              <Tab.Screen name="Income" component={IncomeScreen} />
-              <Tab.Screen name="Calculator" component={CalculatorScreen} />
-
+              <Tab.Screen name="Expense" component={ExpenseScreen}  options={{ tabBarButton: () => null }}/>
+              <Tab.Screen name="Income" component={IncomeScreen} options={{ tabBarButton: () => null }} />
+              <Tab.Screen name="Calculator" component={CalculatorScreen} options={{ tabBarButton: () => null }} />
               <Tab.Screen name="Calendar" component={CalendarScreen} />
             </Tab.Navigator>
           </NavigationContainer>
