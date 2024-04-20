@@ -125,6 +125,11 @@ export const Calendar = () => {
     const isCategory = mode === 'category';
     const isExpanded = isCategory ? item.category === expandedCategory : item.date === expandedCategory;
     const imageUri = isCategory ? getCategoryByText(item.category).uri : require('./assets/date.png');
+    let renderColor = null;
+    if (isCategory)
+    {
+      renderColor = item.IsExpense? 'red' : 'green';
+    }
     return (
       <TouchableOpacity onPress={() => toggleCategory(mode === 'date' ? item.date : item.category)}>
         <View style={styles.headerContainer}>
@@ -134,7 +139,8 @@ export const Calendar = () => {
             style={styles.categoryIcon}
           />
           {/* Category Text */}
-          <Text style={[styles.categoryText, { color: item.IsExpense ? 'red' : 'green' }]}>
+
+          <Text style={[styles.categoryText, { color: renderColor }]}>
             {mode === 'date' ? getDay(item.date) : item.category}
           </Text>
         </View>
