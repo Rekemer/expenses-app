@@ -4,6 +4,7 @@ import { useState, useRef } from "react";
 import PieChart from "react-native-pie-chart";
 import { Dimensions } from "react-native";
 import BottomPanelToggle from "./Modules/BottomPanel";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -18,15 +19,17 @@ const categoryColors =[
   {category: "Eating-out", color: "magenta"},
 ];
 
-const expenses = [];
+let expenses = [];
+let sortedCategories = [];
 
-_retrieveData = async () => {
+_retrieveData = async (categories) => {
   try {
-    const value = await AsyncStorage.getItem(category);
+    const value = await AsyncStorage.getItem(categories.category);
     if (value !== null) {
       // We have data!!
       console.log(value);
-      categories.push(value);
+      // Save data into expenses array
+      expenses.push(value);
     }
   } catch (error) {
     console.log("Error fetching data: ", error);
@@ -55,18 +58,28 @@ const convertData = (expenses) => {
   return result;
 };
 
-const convertColors = () => {
-
+const convertColors = ([categoryColors, categoryData]) => {
+  categoryData = categoryData.map((expense) => {
+    const categoryColor = categoryColors.find((item) => item.category == expense.category);
+    expense.color = categoryColor ? categoryColor.color : '#black';
+  });
 };
 
 export const Home = ({categoryData}) => {
-  // const [categories, setCategories] = useState([
-  //   { category: 'Food', sum: 322, color: "#666666", id: 'c1' },
-  //   { category: 'Car', sum: 228, color: "#777777", id: 'c2' },
-  //   { category: 'Pets', sum: 1000, color: "#888888", id: 'c3' },
-  //   { category: 'Sports', sum: 500, color: "#999999", id: 'c4' },
-  //   { category: 'Health', sum: 78, color: "#AAAAAA", id: 'c5' },
-  // ])
+  const [categories, setCategories] = useState([
+    { category: 'Food', sum: 322, color: "#666666", id: 'c1' },
+    { category: 'Car', sum: 228, color: "#777777", id: 'c2' },
+    { category: 'Pets', sum: 1000, color: "#888888", id: 'c3' },
+    { category: 'Sports', sum: 500, color: "#999999", id: 'c4' },
+    { category: 'Health', sum: 78, color: "#AAAAAA", id: 'c5' },
+  ])
+
+  // -Saving data from Async Storage into 'expenses' array
+  // _retrieveData(categoryColors);
+  // // Summing up the expenses for each category 
+  // sortedCategories = convertData(expenses);
+  // // Assigning colors to each category
+  // convertColors([categoryColors, sortedCategories]);
 
 
   return (

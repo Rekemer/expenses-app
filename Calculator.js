@@ -9,7 +9,6 @@ import { userId } from './User'
 const CalculatorContext = createContext();
 
 export const CalculatorProvider = ({ children }) => {
-
   // State variables
   const [displayValue, setDisplayValue] = useState('0');
   const [operator, setOperator] = useState(null);
@@ -52,8 +51,8 @@ export const CalculatorProvider = ({ children }) => {
     //console.log('handleNumberInput: ' +  displayValue);
     //console.log('handleNumberInput num: ' +  num);
   };
-  const handleCategoryInput = async (category) => {
 
+  const handleCategoryInput = async (category) => {
     try {
       let categoryNumber = await AsyncStorage.getItem(category.text);
       categoryNumber = JSON.parse(categoryNumber);
