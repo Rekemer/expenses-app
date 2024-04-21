@@ -64,6 +64,7 @@ export const CalculatorProvider = ({ children }) => {
 
       // Data item description
       const data = { date: date, displayValue, category: category.text, id: generateId(), IsExpense: category.IsExpense };
+      
 
       const userDatesJson = await AsyncStorage.getItem(userId);
       userDates = JSON.parse(userDatesJson);
