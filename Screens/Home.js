@@ -74,13 +74,14 @@ export const Home = ({categoryData}) => {
     { category: 'Health', sum: 78, color: "#AAAAAA", id: 'c5' },
   ])
 
+  // -----------------------------------------------------
   // -Saving data from Async Storage into 'expenses' array
   // _retrieveData(categoryColors);
   // // Summing up the expenses for each category 
   // sortedCategories = convertData(expenses);
   // // Assigning colors to each category
   // convertColors([categoryColors, sortedCategories]);
-
+  // -----------------------------------------------------
 
   return (
     <SafeAreaView style={styles.wrapper}>
