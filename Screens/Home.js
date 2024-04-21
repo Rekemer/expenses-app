@@ -65,7 +65,7 @@ const convertColors = ([categoryColors, categoryData]) => {
   });
 };
 
-export const Home = ({categoryData}) => {
+export const Home = ({navigation}) => {
   const [categories, setCategories] = useState([
     { category: 'Food', sum: 322, color: "#666666", id: 'c1' },
     { category: 'Car', sum: 228, color: "#777777", id: 'c2' },
@@ -91,7 +91,7 @@ export const Home = ({categoryData}) => {
         renderItem={({ item }) => <Item title={item.category} color={item.color} keyExtractor={item => item.id} />}
         data={categories}
       />
-      <BottomPanelToggle/>
+      <BottomPanelToggle navigation={navigation}/>
     </SafeAreaView>
   );
 };
