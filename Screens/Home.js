@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { userId } from "../User";
 
 const screenWidth = Dimensions.get("window").width;
+// const [sorted, setSorted] = useState();
 
 const categoryColors = [
   { category: "Food", color: "blue" },
@@ -39,10 +40,8 @@ _retrieveData = async (userId) => {
           console.log(`No expenses found for date: ${date}`);
         }
       });
-
       await Promise.all(promises);
     }
-
   } catch (error) {
     console.log("Error fetching data: ", error);
   }
@@ -71,7 +70,7 @@ const calculateCategorySum = (expenses, categoryColors) => {
         console.log('Previous sum for category', expense.category, ':', categorySum[expense.category]);
 
         categorySum[expense.category] += expenseAmount;
-        
+
         console.log('Updated sum for category', expense.category, ':', categorySum[expense.category]);
 
       } else {
@@ -97,6 +96,7 @@ const calculateCategorySum = (expenses, categoryColors) => {
 };
 
 export const Home = ({ navigation }) => {
+
   // Sample data
   const [categories, setCategories] = useState([
     { category: 'Food', sum: 322, color: "#666666" },
@@ -108,21 +108,35 @@ export const Home = ({ navigation }) => {
 
   // -----------------------------------------------------
   // -Saving data from Async Storage into 'expenses' array
-  let sc = [];
+  // let sc = [];
 
-  async function fetchData() {
-    const data = await _retrieveData(userId);
-    const expenses = data.map(item => ({ ...item }));
-    console.log(expenses);
-    sc = calculateCategorySum(expenses, categoryColors);
-    console.log(sc);
+  // async function fetchData() {
+  //   const data = await _retrieveData(userId);
+  //   const expenses = data.map(item => ({ ...item }));
+  //   console.log(expenses);
+  //   calculateCategorySum(expenses, categoryColors);
+  //   console.log(sorted);
+  // }
 
+  const [data, setData] = useState([]);
 
-  }
-  
-  fetchData();
-  
-  console.log(sc + "33333333333");
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const data = await _retrieveData(userId);
+        const expenses = data.map(item => ({ ...item }));
+        console.log(expenses);
+        setData(calculateCategorySum(expenses, categoryColors));
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+
+    fetchData();
+  }, []);
+
+  console.log(data.filter(item => item.sum>0));
+  // fetchData();
 
   // // Summing up the expenses for each category and assigning colors
 
