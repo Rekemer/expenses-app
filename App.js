@@ -19,11 +19,25 @@ function Calculator() {
         <CalculatorProvider>
           <NavigationContainer>
             <Tab.Navigator backBehavior="history">
-              <Tab.Screen name="Home" component={Home} />
+              <Tab.Screen name="Home" component={Home} options={{
+          tabBarIcon: () => (
+            <Image
+              source={require('./assets/house.png')}
+              style={{ width: 24, height: 24 }}
+            />
+          ),
+        }} />
               <Tab.Screen name="Expense" component={ExpenseScreen}  options={{ tabBarButton: () => null }}/>
               <Tab.Screen name="Income" component={IncomeScreen} options={{ tabBarButton: () => null }} />
               <Tab.Screen name="Calculator" component={CalculatorScreen} options={{ tabBarButton: () => null }} />
-              <Tab.Screen name="Calendar" component={CalendarScreen} />
+              <Tab.Screen name="Calendar" component={CalendarScreen} options={{
+          tabBarIcon: () => (
+            <Image
+              source={require('./assets/date.png')}
+              style={{ width: 24, height: 24 }}
+            />
+          ),
+        }} />
             </Tab.Navigator>
           </NavigationContainer>
         </CalculatorProvider>

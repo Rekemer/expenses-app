@@ -167,7 +167,7 @@ export const Calendar = () => {
           <Text style={mode === 'category' ? styles.activeTab : styles.tab}>By Category</Text>
         </TouchableOpacity>
       </View>
-      <View style={{ width: '100%', borderColor: 'red', borderWidth: 2 }}>
+      <View style={{ width: '100%' }}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           {months.map((month, index) => (
           <TouchableOpacity key={index} onPress={() => handleMonthChange(index)}>
@@ -177,7 +177,7 @@ export const Calendar = () => {
         </ScrollView>
       </View>
 
-      <View style = {{ borderColor: 'red', borderWidth: 2 }}>
+      <View>
       <FlatList
       data= {expenses.reduce((acc, expense) => {
         const shouldRender = (selectedMonth + 1) === getMonth(expense.date);
