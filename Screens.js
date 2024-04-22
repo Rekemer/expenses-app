@@ -135,23 +135,23 @@ export function CalculatorScreen({ route,navigation }) {
   const { updateRandomTime } = useCalendarTime();
   return (
     <View style={styles.container}>
-      <View style={{ flexDirection: 'row' }}>
-        <Text style={styles.displayDate}>{date}</Text>
+      <View style={{ width: '100%',flexDirection: 'row',justifyContent: 'space-between' }}>
+        <Text style={[styles.displayDate,{padding:10}]}>{date}</Text>
         <TouchableOpacity style={{
-          flex: 1,
+          flex: .8,
           borderRadius: 50,
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: '#fff',
           elevation: 3,
-          margin: 1,
-          padding: 2,
+          margin: 10,
+          padding: 5,
         }}>
-          <Text style={styles.clearButtonText} onPress={() => updateRandomTime()} >Set Random Time</Text>
+          <Text style={[styles.clearButtonText]} onPress={() => updateRandomTime()} >Set Random Time</Text>
         </TouchableOpacity>
       </View>
       <Display value={displayValue} />
-      { isExpense ? ( <TouchableOpacity style={styles.buttonCategory}>
+      { isExpense ? ( <TouchableOpacity style={[styles.buttonCategory]}>
         <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Expense')} >Pick Category</Text> 
       </TouchableOpacity>) :
 
