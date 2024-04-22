@@ -60,6 +60,7 @@ export const CATEGORY = {
       uri: require('./assets/savings.png')
     },
   };
+  
   export const getCategoryByText = (text) => {
     const lowerCaseText = text.toLowerCase();
   

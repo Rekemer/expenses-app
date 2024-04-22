@@ -8,6 +8,11 @@ import { useCalendarTime } from './RandomtCalendarTime'
 import { userId } from './User'
 const CalculatorContext = createContext();
 
+export const generateId = () => {
+  return Math.random().toString(36).substr(2, 9);
+};
+
+
 export const CalculatorProvider = ({ children }) => {
   // State variables
   const [displayValue, setDisplayValue] = useState('0');
@@ -52,25 +57,25 @@ export const CalculatorProvider = ({ children }) => {
     //console.log('handleNumberInput num: ' +  num);
   };
 
+  
   const handleCategoryInput = async (category) => {
     try {
       let categoryNumber = await AsyncStorage.getItem(category.text);
       categoryNumber = JSON.parse(categoryNumber);
       const newNumber = categoryNumber + parseFloat(displayValue);
       //console.log('new number : ' +newNumber);
-      const generateId = () => {
-        return Math.random().toString(36).substr(2, 9);
-      };
+      
 
       // Data item description
       const data = { date: date, displayValue, category: category.text, id: generateId(), IsExpense: category.IsExpense };
-      
 
       const userDatesJson = await AsyncStorage.getItem(userId);
       userDates = JSON.parse(userDatesJson);
       console.log('user dates ' + userDates);
+
       const existingDataString = await AsyncStorage.getItem(date);
       const existingData = existingDataString ? JSON.parse(existingDataString) : [];
+      
       // Add or update the expense for the given date
       existingData.push(data);
       console.log(existingData);
@@ -91,15 +96,18 @@ export const CalculatorProvider = ({ children }) => {
       // Handle error
     }
   };
+
   // Function to handle clear button press
   const handleClear = () => {
     setDisplayValue('0');
     setOperator(null);
     setFirstValue('');
   };
+
   const handleDot = () => {
     setDisplayValue(displayValue + '.');
-  }
+  };
+
   return (
     <CalculatorContext.Provider
       value={{

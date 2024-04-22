@@ -8,6 +8,7 @@ import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image }
   from 'react-native';
 import { styles } from './MainStyle';
+
 const Button = ({ onPress, text }) => (
   <TouchableOpacity style={styles.button} onPress={onPress}>
     <Text style={styles.buttonText}>{text}</Text>
@@ -121,7 +122,7 @@ const ClearAsyncStorageButton = () => {
     <ClearButton onPress={clearAsyncStorage} text='Clear AsyncStorage' />
   );
 };
-export function CalculatorScreen({ route,navigation }) {
+export function CalculatorScreen({ route, navigation }) {
   const {
     displayValue,
     date,
@@ -131,7 +132,7 @@ export function CalculatorScreen({ route,navigation }) {
     handleDot,
     handleClear,
   } = useCalculator(); // Use useCalculator hook to access state and functions
-  const {isExpense}  =route.params;
+  const { isExpense } = route.params;
   const { updateRandomTime } = useCalendarTime();
   return (
     <View style={styles.container}>
@@ -151,15 +152,15 @@ export function CalculatorScreen({ route,navigation }) {
         </TouchableOpacity>
       </View>
       <Display value={displayValue} />
-      { isExpense ? ( <TouchableOpacity style={styles.buttonCategory}>
-        <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Expense')} >Pick Category</Text> 
+      {isExpense ? (<TouchableOpacity style={styles.buttonCategory}>
+        <Text style={styles.clearButtonText} onPress={() => navigation.navigate('Expense')} >Pick Category</Text>
       </TouchableOpacity>) :
 
-       ( <TouchableOpacity style={styles.buttonCategory}>
-        <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Income')} >Pick Category</Text> 
-      </TouchableOpacity>)
+        (<TouchableOpacity style={styles.buttonCategory}>
+          <Text style={styles.clearButtonText} onPress={() => navigation.navigate('Income')} >Pick Category</Text>
+        </TouchableOpacity>)
       }
-      
+
       <View style={styles.buttonContainer}>
 
         <View style={styles.row}>
