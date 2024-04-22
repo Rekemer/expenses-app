@@ -5,15 +5,15 @@ export const styles = StyleSheet.create({
         backgroundColor: '#f5f5f5',
         alignItems: 'center',
         justifyContent: 'center',
-        borderColor : 'red',
-        borderWidth : 2
+        //borderColor : 'red',
+        //borderWidth : 2
     },
     displayContainer: {
-        flex: 1,
+        flex: 0.6,
         //justifyContent: 'flex-end',
         //alignItems: 'flex-end',
         padding: 10,
-        //borderColor : 'red',
+       // borderColor : 'red',
        // borderWidth : 2,
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -46,8 +46,8 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 10,
-        borderColor : 'blue',
-        borderWidth : 2,
+        //borderColor : 'blue',
+        //borderWidth : 2,
     },
     button: {
         flex: 1,
