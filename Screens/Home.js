@@ -21,18 +21,6 @@ const categoryColors = [
 ];
 
 
-let sortedCategories = [];
-let allZero = false;
-
-// useEffect(() => {
-//   first
-
-//   return () => {
-//     second
-//   }
-// }, [third])
-
-
 _retrieveData = async (userId) => {
   let retrievedExpenses = [];
 
@@ -48,7 +36,7 @@ _retrieveData = async (userId) => {
         if (expenseParsed !== null) {
           expenseParsed.forEach((x) => { retrievedExpenses.push(x) });
         } else {
-          console.warn(`No expenses found for date: ${date}`);
+          console.log(`No expenses found for date: ${date}`);
         }
       });
 
@@ -101,7 +89,6 @@ const calculateCategorySum = (expenses, categoryColors) => {
   for (const categoryColor of categoryColors) {
     const category = categoryColor.category;
     const color = categoryColor.color;
-
     const sum = categorySum[category.toLowerCase()] || 0; // Use 0 if category not found
     categorySumArray.push({ category, sum, color });
   }
@@ -121,14 +108,21 @@ export const Home = ({ navigation }) => {
 
   // -----------------------------------------------------
   // -Saving data from Async Storage into 'expenses' array
+  let sc = [];
+
   async function fetchData() {
     const data = await _retrieveData(userId);
     const expenses = data.map(item => ({ ...item }));
     console.log(expenses);
-    sortedCategories = calculateCategorySum(expenses, categoryColors);
-    console.log(sortedCategories);
+    sc = calculateCategorySum(expenses, categoryColors);
+    console.log(sc);
+
+
   }
+  
   fetchData();
+  
+  console.log(sc + "33333333333");
 
   // // Summing up the expenses for each category and assigning colors
 
@@ -136,11 +130,11 @@ export const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <Chart categories={sortedCategories}></Chart>
+      <Chart categories={categories}></Chart>
       <FlatList
         style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, }]}
         renderItem={({ item }) => <Item title={item.category} color={item.color} keyExtractor={item => item.category} />}
-        data={sortedCategories}
+        data={categories}
       />
       <BottomPanelToggle navigation={navigation} />
     </SafeAreaView>
