@@ -42,7 +42,7 @@ export default function LoginScreen({ navigation }) {
         } else {
           id = generateId();
           // What happens if user already exists
-            const userData = {password, id};
+            const userData = {username: username, password: password, id: id};
             await AsyncStorage.setItem(username, JSON.stringify(userData));
             console.log('User ' + username + ' was successfully created.');
         }
