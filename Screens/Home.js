@@ -16,7 +16,7 @@ const categoryColors = [
   { category: "Health", color: "red" },
   { category: "Pets", color: "green" },
   { category: "Bills", color: "cyan" },
-  { category: "Sports", color: "light-blue" },
+  { category: "Sports", color: "brown" },
   { category: "Taxi", color: "orange" },
   { category: "Eating-out", color: "magenta" },
 ];
@@ -136,6 +136,7 @@ export const Home = ({ navigation }) => {
   }, []);
 
   console.log(data.filter(item => item.sum>0));
+  const filteredData = data.filter(item => item.sum>0);
   // fetchData();
 
   // // Summing up the expenses for each category and assigning colors
@@ -144,11 +145,11 @@ export const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      <Chart categories={categories}></Chart>
+      <Chart categories={filteredData}></Chart>
       <FlatList
         style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, }]}
         renderItem={({ item }) => <Item title={item.category} color={item.color} keyExtractor={item => item.category} />}
-        data={categories}
+        data={filteredData}
       />
       <BottomPanelToggle navigation={navigation} />
     </SafeAreaView>
