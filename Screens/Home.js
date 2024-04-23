@@ -11,13 +11,13 @@ const screenWidth = Dimensions.get("window").width;
 // const [sorted, setSorted] = useState();
 
 const categoryColors = [
-  { category: "Food", color: "blue" },
-  { category: "Transport", color: "yellow" },
-  { category: "Health", color: "red" },
+  { category: "Food", color: "#3388ff" },
+  { category: "Transport", color: "orange" },
+  { category: "Health", color: "#ee1010" },
   { category: "Pets", color: "green" },
   { category: "Bills", color: "cyan" },
   { category: "Sports", color: "brown" },
-  { category: "Taxi", color: "orange" },
+  { category: "Taxi", color: "#eecc25" },
   { category: "Eating-out", color: "magenta" },
 ];
 
@@ -100,13 +100,13 @@ export const Home = ({ navigation }) => {
     { category: 'No category', sum: 0, color: 'grey' }
   ])
   // Sample data
-  const [categories, setCategories] = useState([
-    { category: 'Food', sum: 322, color: "#666666" },
-    { category: 'Car', sum: 228, color: "#777777" },
-    { category: 'Pets', sum: 1000, color: "#888888" },
-    { category: 'Sports', sum: 500, color: "#999999" },
-    { category: 'Health', sum: 78, color: "#AAAAAA" },
-  ])
+  // const [categories, setCategories] = useState([
+  //   { category: 'Food', sum: 322, color: "#666666" },
+  //   { category: 'Car', sum: 228, color: "#777777" },
+  //   { category: 'Pets', sum: 1000, color: "#888888" },
+  //   { category: 'Sports', sum: 500, color: "#999999" },
+  //   { category: 'Health', sum: 78, color: "#AAAAAA" },
+  // ])
 
   // -----------------------------------------------------
   // -Saving data from Async Storage into 'expenses' array
@@ -188,6 +188,12 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   doughnut: {
+    backgroundColor: 'white',
+    borderRadius: 100,
+    borderWidth: 2,
+    borderColor: 'black',
+    width: screenWidth/2,
+    height: screenWidth/2
     // position: "relative",
   },
   itemframe: {
