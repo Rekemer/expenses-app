@@ -97,7 +97,7 @@ const calculateCategorySum = (expenses, categoryColors) => {
 
 export const Home = ({ navigation }) => {
   const [emptyCategory, setEmptyCategory] = useState([
-    {category: 'No category', sum: 0, color: 'grey'}
+    { category: 'No category', sum: 0, color: 'grey' }
   ])
   // Sample data
   const [categories, setCategories] = useState([
@@ -110,7 +110,7 @@ export const Home = ({ navigation }) => {
 
   // -----------------------------------------------------
   // -Saving data from Async Storage into 'expenses' array
-  const [data, setData] = useState({values: [], loading: true});
+  const [data, setData] = useState({ values: [], loading: true });
 
   useEffect(() => {
     async function fetchData() {
@@ -118,7 +118,7 @@ export const Home = ({ navigation }) => {
         const data = await _retrieveData(userId);
         const expenses = data.map(item => ({ ...item }));
         console.log(expenses);
-        setData({values: calculateCategorySum(expenses, categoryColors), loading: false});
+        setData({ values: calculateCategorySum(expenses, categoryColors), loading: false });
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -127,8 +127,8 @@ export const Home = ({ navigation }) => {
     fetchData();
   }, []);
 
-  console.log(data.values.filter(e => e.sum > 0));
   const filteredData = data.values.filter(e => e.sum > 0);
+  console.log(filteredData);
 
   // // Summing up the expenses for each category and assigning colors
 
@@ -136,12 +136,12 @@ export const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      {<Chart categories={categories}></Chart>}
-      <FlatList
+      {<Chart categories={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}></Chart>}
+      {<FlatList
         style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, }]}
         renderItem={({ item }) => <Item title={item.category} color={item.color} keyExtractor={item => item.category} />}
-        data={filteredData}
-      />
+        data={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}
+      />}
       <BottomPanelToggle navigation={navigation} />
     </SafeAreaView>
   );
