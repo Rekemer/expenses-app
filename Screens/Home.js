@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderRadius: 4,
-    backgroundColor: "#cccccc",
+    backgroundColor: "#aaaaaa",
     width: 270,
     height: 60,
   },

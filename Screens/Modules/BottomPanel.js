@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: -screenWidth/2,
     right: 0,
-    backgroundColor: '#d0d0d0',
+    backgroundColor: 'grey',
     padding: 20,
     width: screenWidth,
   },
