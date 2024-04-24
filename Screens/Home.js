@@ -18,7 +18,8 @@ const categoryColors = [
   { category: "Bills", color: "cyan" },
   { category: "Sports", color: "brown" },
   { category: "Taxi", color: "#eecc25" },
-  { category: "Eating-out", color: "magenta" },
+  { category: "Eating out", color: "magenta" },
+  { category: "House", color: "pink" },
 ];
 
 
