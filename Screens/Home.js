@@ -1,5 +1,5 @@
 import React, { useEffect, version } from "react";
-import { View, Text, StyleSheet, FlatList, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, FlatList, SafeAreaView, RefreshControl, ScrollView } from "react-native";
 import { useState, useRef } from "react";
 import PieChart from "react-native-pie-chart";
 import { Dimensions } from "react-native";
@@ -137,13 +137,15 @@ export const Home = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      {<Chart categories={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}></Chart>}
-      {<FlatList
-        style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, }]}
-        renderItem={({ item }) => <Item title={item.category} color={item.color} keyExtractor={item => item.category} />}
-        data={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}
-      />}
-      <BottomPanelToggle navigation={navigation} />
+
+        {<Chart categories={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}></Chart>}
+        {<FlatList
+          style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, backgroundColor: '#666666',}]}
+          renderItem={({ item }) => <Item title={item.category} color={item.color} sum={item.sum.toFixed(2)} keyExtractor={item => item.category} />}
+          data={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}
+        />}
+        <BottomPanelToggle navigation={navigation} />
+
     </SafeAreaView>
   );
 };
@@ -155,7 +157,7 @@ const Chart = ({ categories }) => {
   const colors = cat.map(x => x = x.color);
 
   return (
-    <View style={[styles.container, { padding: 20 }]}>
+    <View style={[styles.container, { padding: 20,  }]}>
       <PieChart style={styles.doughnut}
         widthAndHeight={widthAndHeight}
         series={series}
@@ -167,11 +169,11 @@ const Chart = ({ categories }) => {
   );
 }
 
-const Item = ({ title, color }) => {
+const Item = ({ title, color, sum }) => {
   return (
     <View style={styles.legendItem}>
       <View style={[styles.legendCircle, { backgroundColor: color }]}></View>
-      <Text style={[{ fontSize: 20 }]}>{title}: %</Text>
+      <Text style={[{ fontSize: 20, color: 'whitesmoke' }]}>{title}: €{sum}</Text>
     </View>
   )
 }
@@ -183,21 +185,22 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     // justifyContent: 'flex-end',
     gap: 5,
+    backgroundColor: "#444444",
   },
   title: {
     fontSize: 24,
     margin: 10,
   },
   doughnut: {
-    backgroundColor: 'white',
     borderRadius: 100,
     borderWidth: 2,
     borderColor: 'black',
-    width: screenWidth/2,
-    height: screenWidth/2
+    width: screenWidth / 2,
+    height: screenWidth / 2
     // position: "relative",
   },
   itemframe: {
+    
     marginVertical: 7,
     paddingHorizontal: 20,
     flex: 1,
@@ -222,7 +225,7 @@ const styles = StyleSheet.create({
   legendItem: {
     flex: 1,
     flexDirection: 'row',
-    padding: 14,
+    padding: 10,
     marginVertical: 8,
     marginHorizontal: 16,
     alignItems: 'center'
@@ -232,5 +235,7 @@ const styles = StyleSheet.create({
     width: 16,
     borderRadius: 50,
     marginRight: 15,
+    borderColor: '#333333',
+    borderWidth: 2
   }
 });
