@@ -200,8 +200,7 @@ const styles = StyleSheet.create({
     // position: "relative",
   },
   itemframe: {
-    
-    marginVertical: 7,
+    marginTop: 7,
     paddingHorizontal: 20,
     flex: 1,
     flexDirection: "row",
