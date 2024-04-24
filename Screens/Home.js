@@ -162,8 +162,7 @@ const Chart = ({ categories }) => {
         widthAndHeight={widthAndHeight}
         series={series}
         sliceColor={colors}
-        coverRadius={0.55}
-        coverFill={'#FFF'}
+        coverRadius={0.65}
       />
     </View>
   );
