@@ -167,7 +167,7 @@ const ClearAsyncStorageButton = () => {
   };
 
   return (
-    <ClearButton onPress={clearAsyncStorage} text='Clear AsyncStorage' />
+    <ClearButton onPress={clearAsyncStorage} text='Clear All Records' />
   );
 };
 export function CalculatorScreen({ route, navigation }) {
@@ -201,7 +201,11 @@ export function CalculatorScreen({ route, navigation }) {
       </View>
       <Display value={displayValue} />
 
-      <ClearAsyncStorageButton/>
+      <View style={{flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8}}>
+        <ClearAsyncStorageButton />
+        <Image style={{width: 24, height: 24, bottom: 5}} source={require('./assets/warning.png')} />
+      </View>
+
       <View style={styles.buttonContainer}>
 
         <View style={styles.row}>
@@ -230,11 +234,11 @@ export function CalculatorScreen({ route, navigation }) {
         </View>
         <ClearButton onPress={() => handleClear()} text="C" />
         {isExpense ? (<TouchableOpacity style={[styles.buttonCategory]}>
-          <Text style={[styles.clearButtonText, {padding: 10}]} onPress={() => navigation.navigate('Expense')} >Pick Category</Text>
+          <Text style={[styles.clearButtonText, { padding: 10 }]} onPress={() => navigation.navigate('Expense')} >Pick Category</Text>
         </TouchableOpacity>) :
 
           (<TouchableOpacity style={styles.buttonCategory}>
-            <Text style={[styles.clearButtonText, {padding: 10}]} onPress={() => navigation.navigate('Income')} >Pick Category</Text>
+            <Text style={[styles.clearButtonText, { padding: 10 }]} onPress={() => navigation.navigate('Income')} >Pick Category</Text>
           </TouchableOpacity>)
         }
       </View>
