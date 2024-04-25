@@ -1,4 +1,4 @@
-import React, { Children, createContext, useEffect, version } from "react";
+import React, { Children, createContext, useContext, useEffect, version } from "react";
 import { View, Text, StyleSheet, FlatList, SafeAreaView, RefreshControl, ScrollView } from "react-native";
 import { useState, useRef } from "react";
 import PieChart from "react-native-pie-chart";
@@ -9,7 +9,19 @@ import { userId } from "../User";
 
 const screenWidth = Dimensions.get("window").width;
 // const [sorted, setSorted] = useState();
-const HomeScreenContext = createContext();
+export const HomeScreenContext = createContext();
+
+export const HomeScreenProvider = ({ children }) => {
+  const [diagramUpdated, setDiagramUpdated] = useState(false);
+
+  return (
+    <HomeScreenContext.Provider
+      value={{ diagramUpdated, setDiagramUpdated }}
+    >
+      {children}
+    </HomeScreenContext.Provider>
+  );
+}
 
 const categoryColors = [
   { category: "Food", color: "#3388ff" },
@@ -97,17 +109,7 @@ const calculateCategorySum = (expenses, categoryColors) => {
   return categorySumArray;
 };
 
-export const HomeScreenProvider = ({children}) => {
-  const [storageUpdated, setStorageUpdated] = useState(false);
 
-  return (
-    <HomeScreenContext.Provider
-    value={{ storageUpdated, setStorageUpdated }}
-    >
-      {children}  
-    </HomeScreenContext.Provider>
-  );
-}
 
 export const Home = ({ navigation }) => {
   const [emptyCategory, setEmptyCategory] = useState([
@@ -125,7 +127,7 @@ export const Home = ({ navigation }) => {
   // -----------------------------------------------------
   // -Saving data from Async Storage into 'expenses' array
   const [data, setData] = useState({ values: [], loading: true });
-
+  const { diagramUpdated } = useContext(HomeScreenContext);
   useEffect(() => {
     async function fetchData() {
       try {
@@ -139,7 +141,7 @@ export const Home = ({ navigation }) => {
     }
 
     fetchData();
-  }, []);
+  }, [diagramUpdated]);
 
   const filteredData = data.values.filter(e => e.sum > 0);
   console.log(filteredData);
@@ -151,13 +153,13 @@ export const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.wrapper}>
 
-        {<Chart categories={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}></Chart>}
-        {<FlatList
-          style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, backgroundColor: '#666666',}]}
-          renderItem={({ item }) => <Item title={item.category} color={item.color} sum={item.sum.toFixed(2)} keyExtractor={item => item.category} />}
-          data={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}
-        />}
-        <BottomPanelToggle navigation={navigation} />
+      {<Chart categories={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}></Chart>}
+      {<FlatList
+        style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, backgroundColor: '#666666', }]}
+        renderItem={({ item }) => <Item title={item.category} color={item.color} sum={item.sum.toFixed(2)} keyExtractor={item => item.category} />}
+        data={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}
+      />}
+      <BottomPanelToggle navigation={navigation} />
 
     </SafeAreaView>
   );
@@ -170,7 +172,7 @@ const Chart = ({ categories }) => {
   const colors = cat.map(x => x = x.color);
 
   return (
-    <View style={[styles.container, { padding: 20,  }]}>
+    <View style={[styles.container, { padding: 20, }]}>
       <PieChart style={styles.doughnut}
         widthAndHeight={widthAndHeight}
         series={series}

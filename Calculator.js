@@ -6,6 +6,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCalendar } from './Calendar'
 import { useCalendarTime } from './RandomtCalendarTime'
 import { userId } from './User'
+import { HomeScreenContext } from './Screens/Home';
+
+
 const CalculatorContext = createContext();
 
 export const CalculatorProvider = ({ children }) => {
@@ -14,6 +17,7 @@ export const CalculatorProvider = ({ children }) => {
   const [operator, setOperator] = useState(null);
   const [firstValue, setFirstValue] = useState('');
   const { storageUpdated, setStorageUpdated } = useCalendar();
+  const {diagramUpdated, setDiagramUpdated} = useContext(HomeScreenContext);
   const { randomTime } = useCalendarTime();
   const date = randomTime.getString()
   // Function to handle operator inputs
@@ -84,7 +88,10 @@ export const CalculatorProvider = ({ children }) => {
       await AsyncStorage.setItem(date, JSON.stringify(existingData));
       await AsyncStorage.setItem(userId, JSON.stringify(userDates));
       //console.log(category.text + ': ' + categoryNumber);
+
       setStorageUpdated(!storageUpdated);
+      setDiagramUpdated(!diagramUpdated);
+
       handleClear();
     } catch (error) {
       console.error('Error saving data:', error);

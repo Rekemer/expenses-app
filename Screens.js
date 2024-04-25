@@ -4,10 +4,12 @@ import { CATEGORY } from './Categories';
 import { userId } from './User';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCalculator } from './Calculator';
-import React, { useState,useEffect } from 'react';
-import {  FlatList, Text, View, TouchableOpacity, Image }
+import React, { useState, useEffect } from 'react';
+import { FlatList, Text, View, TouchableOpacity, Image }
   from 'react-native';
 import { styles } from './MainStyle';
+
+
 const Button = ({ onPress, text }) => (
   <TouchableOpacity style={styles.button} onPress={onPress}>
     <Text style={styles.buttonText}>{text}</Text>
@@ -100,8 +102,7 @@ export function IncomeScreen({ navigation }) {
   </View>)
 }
 
-export function ApiScreen({navigator})
-{
+export function ApiScreen({ navigator }) {
   const [exchangeRates, setExchangeRates] = useState([]);
 
   useEffect(() => {
@@ -120,14 +121,16 @@ export function ApiScreen({navigator})
   }, []);
 
   const renderExchangeRate = ({ item }) => (
-    <View style={{flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
-    width: '100%',}}>
+    <View style={{
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingVertical: 10,
+      paddingHorizontal: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc',
+      width: '100%',
+    }}>
       <Text>{item[0]}:</Text>
       <Text>{item[1]}</Text>
     </View>
@@ -165,7 +168,7 @@ const ClearAsyncStorageButton = () => {
     <ClearButton onPress={clearAsyncStorage} text='Clear AsyncStorage' />
   );
 };
-export function CalculatorScreen({ route,navigation }) {
+export function CalculatorScreen({ route, navigation }) {
   const {
     displayValue,
     date,
@@ -175,12 +178,12 @@ export function CalculatorScreen({ route,navigation }) {
     handleDot,
     handleClear,
   } = useCalculator(); // Use useCalculator hook to access state and functions
-  const {isExpense}  =route.params;
+  const { isExpense } = route.params;
   const { updateRandomTime } = useCalendarTime();
   return (
     <View style={styles.container}>
-      <View style={{ width: '100%',flexDirection: 'row',justifyContent: 'space-between' }}>
-        <Text style={[styles.displayDate,{padding:10}]}>{date}</Text>
+      <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <Text style={[styles.displayDate, { padding: 10 }]}>{date}</Text>
         <TouchableOpacity style={{
           flex: .8,
           borderRadius: 50,
@@ -195,15 +198,15 @@ export function CalculatorScreen({ route,navigation }) {
         </TouchableOpacity>
       </View>
       <Display value={displayValue} />
-      { isExpense ? ( <TouchableOpacity style={[styles.buttonCategory]}>
-        <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Expense')} >Pick Category</Text> 
+      {isExpense ? (<TouchableOpacity style={[styles.buttonCategory]}>
+        <Text style={styles.clearButtonText} onPress={() => navigation.navigate('Expense')} >Pick Category</Text>
       </TouchableOpacity>) :
 
-       ( <TouchableOpacity style={styles.buttonCategory}>
-        <Text style={styles.clearButtonText}  onPress={() => navigation.navigate('Income')} >Pick Category</Text> 
-      </TouchableOpacity>)
+        (<TouchableOpacity style={styles.buttonCategory}>
+          <Text style={styles.clearButtonText} onPress={() => navigation.navigate('Income')} >Pick Category</Text>
+        </TouchableOpacity>)
       }
-      
+
       <View style={styles.buttonContainer}>
 
         <View style={styles.row}>

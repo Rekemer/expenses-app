@@ -64,7 +64,9 @@ export const Calendar = () => {
       return null;
     }
   };
+  
   const {storageUpdated}= useCalendar();
+
   useEffect(() => {
     //console.log("update list");
     const fetchExpenses = async () => {
