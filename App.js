@@ -55,7 +55,7 @@ export default function App() {
                     />
                   ),
                 }} />
-                <Tab.Screen name="Api" component={ApiScreen} options={{
+                <Tab.Screen name="Exchange" component={ApiScreen} options={{
                   tabBarIcon: () => (
                     <Image
                       source={require('./assets/exchange-rate.png')}
