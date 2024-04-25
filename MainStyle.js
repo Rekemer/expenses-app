@@ -1,4 +1,7 @@
-import {StyleSheet}  from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const screenWidth = Dimensions.get("window").width;
+
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -13,28 +16,28 @@ export const styles = StyleSheet.create({
         //justifyContent: 'flex-end',
         //alignItems: 'flex-end',
         padding: 10,
-       // borderColor : 'red',
-       // borderWidth : 2,
+        // borderColor : 'red',
+        // borderWidth : 2,
         flexDirection: 'row',
         justifyContent: 'space-around',
-       // gap: 10,
+        // gap: 10,
     },
     c: {
-      flex: 2,
-      justifyContent: 'flex-end',
-      alignItems: 'flex-end',
-      },
+        flex: 2,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end',
+    },
     displayText: {
         fontSize: 48,
         color: '#333',
     },
-  
+
     displayDate: {
-      fontSize: 28,
-      color: '#333',
-      //borderColor : 'red',
-     // borderWidth : 2,
-  },
+        fontSize: 28,
+        color: '#333',
+        //borderColor : 'red',
+        // borderWidth : 2,
+    },
     buttonContainer: {
         flex: 3,
         width: '80%',
@@ -62,13 +65,13 @@ export const styles = StyleSheet.create({
     },
     buttonCategory:
     {
-      borderRadius: 50,
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#f0f0f0',
-      margin: 20,
-      elevation: 3,
-      width: '80%',
+        borderRadius: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#f0f0f0',
+        marginBottom: 10,
+        elevation: 3,
+        width: '100%',
     },
     buttonText: {
         fontSize: 34,
@@ -101,19 +104,20 @@ export const styles = StyleSheet.create({
         color: '#fff',
     },
     image: {
-      width: 35, // Adjust width as needed
-      height: 35, // Adjust height as needed
-      resizeMode: 'contain', // Adjust resize mode as needed
-      marginBottom: 5, // Adjust margin as needed
+        width: 35, // Adjust width as needed
+        height: 35, // Adjust height as needed
+        resizeMode: 'contain', // Adjust resize mode as needed
+        marginBottom: 5, // Adjust margin as needed
     },
     clearButton: {
         borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#f0f0f0',
-        margin: 10,
+        // margin: 10,
         elevation: 3,
         padding: 10,
+        marginBottom: 10
         //borderColor : 'red',
         //borderWidth : 2,
     },
@@ -121,5 +125,4 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         color: '#333',
     },
-  });
-  
+});

@@ -5,9 +5,11 @@ import { userId } from './User';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCalculator } from './Calculator';
 import React, { useState, useEffect } from 'react';
-import { FlatList, Text, View, TouchableOpacity, Image }
+import { FlatList, Text, View, TouchableOpacity, Image, Dimensions }
   from 'react-native';
 import { styles } from './MainStyle';
+
+
 
 
 const Button = ({ onPress, text }) => (
@@ -198,15 +200,8 @@ export function CalculatorScreen({ route, navigation }) {
         </TouchableOpacity>
       </View>
       <Display value={displayValue} />
-      {isExpense ? (<TouchableOpacity style={[styles.buttonCategory]}>
-        <Text style={styles.clearButtonText} onPress={() => navigation.navigate('Expense')} >Pick Category</Text>
-      </TouchableOpacity>) :
 
-        (<TouchableOpacity style={styles.buttonCategory}>
-          <Text style={styles.clearButtonText} onPress={() => navigation.navigate('Income')} >Pick Category</Text>
-        </TouchableOpacity>)
-      }
-
+      <ClearAsyncStorageButton/>
       <View style={styles.buttonContainer}>
 
         <View style={styles.row}>
@@ -234,10 +229,15 @@ export function CalculatorScreen({ route, navigation }) {
           <OperatorButton onPress={() => handleDot()} text="." />
         </View>
         <ClearButton onPress={() => handleClear()} text="C" />
-        <ClearAsyncStorageButton />
+        {isExpense ? (<TouchableOpacity style={[styles.buttonCategory]}>
+          <Text style={[styles.clearButtonText, {padding: 10}]} onPress={() => navigation.navigate('Expense')} >Pick Category</Text>
+        </TouchableOpacity>) :
+
+          (<TouchableOpacity style={styles.buttonCategory}>
+            <Text style={[styles.clearButtonText, {padding: 10}]} onPress={() => navigation.navigate('Income')} >Pick Category</Text>
+          </TouchableOpacity>)
+        }
       </View>
-
-
     </View>
   );
 }

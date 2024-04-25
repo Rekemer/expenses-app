@@ -44,14 +44,14 @@ const BottomPanelToggle = ({ navigation, incomebalance }) => {
           {/* Content of the bottom panel*/}
           <SafeAreaView style={styles.bottomButtonWrapper}>
             <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator', { isExpense: false })}>
-              <Image style={[styles.bottomPanelButton, { resizeMode: 'stretch', position: 'absolute', top: -13, left: -12 }]} source={require('../../assets/Add button.png')}></Image>
+              <Image style={[styles.bottomButtonImage, { resizeMode: 'stretch', position: 'absolute'}]} source={require('../../assets/Add button.png')}></Image>
             </TouchableOpacity>
             <View style={styles.bottomBalancePanel}>
-              <Text style={[{ fontSize: 18, fontWeight: 'bold', color: 'whitesmoke' }]}>Income Balance: </Text>
+              <Text style={[ { fontSize: 18, fontWeight: 'bold', color: 'whitesmoke' }]}>Income Balance: </Text>
               {incomebalance >= 0 ? <Text style={styles.positiveBalance}>€{incomebalance}</Text> : <Text style={styles.negativeBalance}>€{incomebalance}</Text>}
             </View>
             <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator', { isExpense: true })}>
-              <Image style={[styles.bottomPanelButton, { resizeMode: 'stretch', position: 'absolute', top: -13, left: -12 }]} source={require('../../assets/Minus button.png')}></Image>
+              <Image style={[styles.bottomButtonImage, { resizeMode: 'stretch', position: 'absolute'}]} source={require('../../assets/Minus button.png')}></Image>
             </TouchableOpacity>
           </SafeAreaView>
         </Animated.View>
@@ -121,6 +121,11 @@ const styles = StyleSheet.create({
     width: 48,
     margin: 10,
     borderRadius: 50,
+    elevation: 3
+  },
+  bottomButtonImage: {
+    height: 48,
+    width: 48,
     
   },
   bottomBalancePanel: {

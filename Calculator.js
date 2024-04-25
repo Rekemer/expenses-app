@@ -93,6 +93,7 @@ export const CalculatorProvider = ({ children }) => {
       setDiagramUpdated(!diagramUpdated);
 
       handleClear();
+      
     } catch (error) {
       console.error('Error saving data:', error);
       // Handle error
