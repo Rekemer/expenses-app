@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image }
   from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer} from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Home } from './Screens/Home';
 import { HomeScreenProvider } from './Screens/Home';
@@ -11,7 +11,6 @@ import { CalendarTimeProvider } from './RandomtCalendarTime';
 import { CalendarProvider } from './Calendar';
 import { Alert } from 'react-native';
 import { IncomeScreen, ExpenseScreen, CalculatorScreen, CalendarScreen, ApiScreen } from './Screens';
-
 
 
 export default function App() {
@@ -35,7 +34,7 @@ export default function App() {
       <CalendarProvider>
         <CalendarTimeProvider>
           <CalculatorProvider>
-            <NavigationContainer>
+            <NavigationContainer >
               <Tab.Navigator backBehavior="history">
                 <Tab.Screen name="Home" component={Home} options={{
                   tabBarIcon: () => (

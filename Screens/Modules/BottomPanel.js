@@ -44,14 +44,14 @@ const BottomPanelToggle = ({ navigation, incomebalance }) => {
           {/* Content of the bottom panel*/}
           <SafeAreaView style={styles.bottomButtonWrapper}>
             <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator', { isExpense: false })}>
-              <Image style={[styles.bottomPanelButton, { resizeMode: 'stretch', position: 'absolute', top: -15, left: -15 }]} source={require('../../assets/Add button.png')}></Image>
+              <Image style={[styles.bottomPanelButton, { resizeMode: 'stretch', position: 'absolute', top: -13, left: -12 }]} source={require('../../assets/Add button.png')}></Image>
             </TouchableOpacity>
             <View style={styles.bottomBalancePanel}>
-              <Text style={[{ fontSize: 16, fontWeight: 'bold', color: 'whitesmoke' }]}>Income Balance: </Text>
+              <Text style={[{ fontSize: 18, fontWeight: 'bold', color: 'whitesmoke' }]}>Income Balance: </Text>
               {incomebalance >= 0 ? <Text style={styles.positiveBalance}>€{incomebalance}</Text> : <Text style={styles.negativeBalance}>€{incomebalance}</Text>}
             </View>
             <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator', { isExpense: true })}>
-              <Image style={[styles.bottomPanelButton, { resizeMode: 'stretch', position: 'absolute', top: -15, left: -15 }]} source={require('../../assets/Minus button.png')}></Image>
+              <Image style={[styles.bottomPanelButton, { resizeMode: 'stretch', position: 'absolute', top: -13, left: -12 }]} source={require('../../assets/Minus button.png')}></Image>
             </TouchableOpacity>
           </SafeAreaView>
         </Animated.View>
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     width: 48,
     margin: 10,
     borderRadius: 50,
-
+    
   },
   bottomBalancePanel: {
     alignItems: 'center',
@@ -129,10 +129,10 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   positiveBalance: {
-    fontSize: 18, fontWeight: 'bold', color: 'green'
+    fontSize: 20, fontWeight: 'bold', color: '#11dd33'
   },
   negativeBalance: {
-    fontSize: 18, fontWeight: 'bold', color: 'red'
+    fontSize: 20, fontWeight: 'bold', color: '#ee0000'
   }
 });
 
