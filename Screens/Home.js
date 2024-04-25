@@ -11,6 +11,7 @@ const screenWidth = Dimensions.get("window").width;
 // const [sorted, setSorted] = useState();
 export const HomeScreenContext = createContext();
 
+
 export const HomeScreenProvider = ({ children }) => {
   const [diagramUpdated, setDiagramUpdated] = useState(false);
 
@@ -64,8 +65,10 @@ _retrieveData = async (userId) => {
 };
 
 // Sum up the expenses for categories and assign colors to them
-const calculateCategorySum = (expenses, categoryColors) => {
+const calculateCategorySum = (expenses, categoryColors, returnValue) => {
   const categorySum = {};
+  let totalIncome = 0;
+  let totalExpense = 0;
   // Calculate sum of expenses for each category
   // ------------------------------------
   expenses.forEach((expense) => {
@@ -86,10 +89,16 @@ const calculateCategorySum = (expenses, categoryColors) => {
         categorySum[expense.category] += expenseAmount;
 
         console.log('Updated sum for category', expense.category, ':', categorySum[expense.category]);
-
+        totalExpense += expenseAmount;
+        console.log('Total expense: ' + totalExpense);
       } else {
         console.warn(`Invalid displayValue for expense with ID ${expense.id}. Skipping.`);
       }
+    } else {
+      const incomeAmount = parseFloat(expense.displayValue);
+      console.log('Total Income: ' + incomeAmount);
+
+      totalIncome += incomeAmount;
     }
   });
   // ------------------------------------
@@ -99,6 +108,7 @@ const calculateCategorySum = (expenses, categoryColors) => {
   const categorySumArray = [];
 
 
+
   for (const categoryColor of categoryColors) {
     const category = categoryColor.category;
     const color = categoryColor.color;
@@ -106,23 +116,27 @@ const calculateCategorySum = (expenses, categoryColors) => {
     categorySumArray.push({ category, sum, color });
   }
 
-  return categorySumArray;
+  switch (returnValue) {
+    case 'expenses':
+      return categorySumArray;
+      break;
+    case 'totalincome':
+      return totalIncome;
+      break;
+    case 'totalexpense':
+      return totalExpense;
+      break;
+    default:
+      return 0;
+  }
+
 };
 
 
 
 export const Home = ({ navigation }) => {
-  const [emptyCategory, setEmptyCategory] = useState([
-    { category: 'No category', sum: 0, color: 'grey' }
-  ])
-  // Sample data
-  // const [categories, setCategories] = useState([
-  //   { category: 'Food', sum: 322, color: "#666666" },
-  //   { category: 'Car', sum: 228, color: "#777777" },
-  //   { category: 'Pets', sum: 1000, color: "#888888" },
-  //   { category: 'Sports', sum: 500, color: "#999999" },
-  //   { category: 'Health', sum: 78, color: "#AAAAAA" },
-  // ])
+  const [totalIncome, setTotalIncome] = useState(0);
+  const [totalExpense, setTotalExpense] = useState(0);
 
   // -----------------------------------------------------
   // -Saving data from Async Storage into 'expenses' array
@@ -134,7 +148,10 @@ export const Home = ({ navigation }) => {
         const data = await _retrieveData(userId);
         const expenses = data.map(item => ({ ...item }));
         console.log(expenses);
-        setData({ values: calculateCategorySum(expenses, categoryColors), loading: false });
+        setData({ values: calculateCategorySum(expenses, categoryColors, 'expenses'), loading: false });
+        setTotalIncome(calculateCategorySum(expenses, categoryColors, 'totalincome'));
+        setTotalExpense(calculateCategorySum(expenses, categoryColors, 'totalexpense'));
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -146,6 +163,8 @@ export const Home = ({ navigation }) => {
   const filteredData = data.values.filter(e => e.sum > 0);
   console.log(filteredData);
 
+
+
   // // Summing up the expenses for each category and assigning colors
 
   // -----------------------------------------------------
@@ -154,12 +173,12 @@ export const Home = ({ navigation }) => {
     <SafeAreaView style={styles.wrapper}>
 
       {<Chart categories={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}></Chart>}
-      {<FlatList
+      {filteredData.length > 0 ? (<FlatList
         style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, backgroundColor: '#666666', }]}
         renderItem={({ item }) => <Item title={item.category} color={item.color} sum={item.sum.toFixed(2)} keyExtractor={item => item.category} />}
-        data={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}
-      />}
-      <BottomPanelToggle navigation={navigation} />
+        data={filteredData}
+      />) : (<View style={styles.emptyPanel}><Text style={styles.emptyText}>No expenses currently</Text></View>)}
+      <BottomPanelToggle navigation={navigation} incomebalance={(totalIncome-totalExpense)}/>
 
     </SafeAreaView>
   );
@@ -188,6 +207,7 @@ const Item = ({ title, color, sum }) => {
     <View style={styles.legendItem}>
       <View style={[styles.legendCircle, { backgroundColor: color }]}></View>
       <Text style={[{ fontSize: 20, color: 'whitesmoke' }]}>{title}: €{sum}</Text>
+
     </View>
   )
 }
@@ -241,7 +261,9 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 8,
     marginHorizontal: 16,
-    alignItems: 'center'
+    alignItems: 'center',
+    borderBottomColor: 'grey',
+    borderBottomWidth: 1
   },
   legendCircle: {
     height: 16,
@@ -250,5 +272,15 @@ const styles = StyleSheet.create({
     marginRight: 15,
     borderColor: '#333333',
     borderWidth: 2
+  },
+  emptyPanel: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  emptyText: {
+    color: 'whitesmoke',
+    fontSize: 16,
+    fontWeight: '600'
   }
 });

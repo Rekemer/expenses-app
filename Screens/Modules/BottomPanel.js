@@ -3,7 +3,7 @@ import { View, TouchableOpacity, Text, StyleSheet, Animated, Dimensions, SafeAre
 
 const screenWidth = Dimensions.get("window").width;
 
-const BottomPanelToggle = ({navigation}) => {
+const BottomPanelToggle = ({ navigation, incomebalance }) => {
   const [isPanelVisible, setPanelVisible] = useState(false);
   const slideAnimation = new Animated.Value(1);
 
@@ -35,22 +35,23 @@ const BottomPanelToggle = ({navigation}) => {
       {/* Bottom Panel */}
       {isPanelVisible && (
         <Animated.View
-          style={[styles.bottomPanel, { transform: [{ translateY: panelTranslateY }]}]}>
+          style={[styles.bottomPanel, { transform: [{ translateY: panelTranslateY }] }]}>
           {/* Close bottom panel button */}
-          <TouchableOpacity onPress={togglePanel} style={[{alignSelf: 'center', height: 20, width: 100}]}>
-            <Image style={[{height: 12, width: 20, resizeMode: 'stretch', alignSelf: 'center'}]} source={require('../../assets/ArrowDown.png')}/>
+          <TouchableOpacity onPress={togglePanel} style={[{ alignSelf: 'center', height: 20, width: 100 }]}>
+            <Image style={[{ height: 12, width: 20, resizeMode: 'stretch', alignSelf: 'center' }]} source={require('../../assets/ArrowDown.png')} />
           </TouchableOpacity>
-          
+
           {/* Content of the bottom panel*/}
           <SafeAreaView style={styles.bottomButtonWrapper}>
-            <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator',{ isExpense: false })}>
-              <Image style={[styles.bottomPanelButton, {resizeMode: 'stretch', position: 'absolute', top: -15, left: -15}]} source={require('../../assets/Add button.png')}></Image>
+            <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator', { isExpense: false })}>
+              <Image style={[styles.bottomPanelButton, { resizeMode: 'stretch', position: 'absolute', top: -15, left: -15 }]} source={require('../../assets/Add button.png')}></Image>
             </TouchableOpacity>
             <View style={styles.bottomBalancePanel}>
-              <Text style={[{fontSize: 16, fontWeight: 'bold'}]}>Balance: </Text>
+              <Text style={[{ fontSize: 16, fontWeight: 'bold', color: 'whitesmoke' }]}>Income Balance: </Text>
+              {incomebalance >= 0 ? <Text style={styles.positiveBalance}>€{incomebalance}</Text> : <Text style={styles.negativeBalance}>€{incomebalance}</Text>}
             </View>
-            <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator',{ isExpense: true })}>
-              <Image style={[styles.bottomPanelButton, {resizeMode: 'stretch', position: 'absolute', top: -15, left: -15}]} source={require('../../assets/Minus button.png')}></Image>
+            <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator', { isExpense: true })}>
+              <Image style={[styles.bottomPanelButton, { resizeMode: 'stretch', position: 'absolute', top: -15, left: -15 }]} source={require('../../assets/Minus button.png')}></Image>
             </TouchableOpacity>
           </SafeAreaView>
         </Animated.View>
@@ -59,7 +60,7 @@ const BottomPanelToggle = ({navigation}) => {
       {/* Toggle Button */}
       {!isPanelVisible && (
         <TouchableOpacity onPress={togglePanel} style={styles.toggleButton}>
-          <Image style={[{height: 12, width: 20, resizeMode: 'stretch'}]} source={require('../../assets/ArrowUp.png')}></Image>
+          <Image style={[{ height: 12, width: 20, resizeMode: 'stretch' }]} source={require('../../assets/ArrowUp.png')}></Image>
         </TouchableOpacity>
       )}
     </View>
@@ -88,9 +89,9 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 15,
     position: 'absolute',
     bottom: 0,
-    left: -screenWidth/2,
+    left: -screenWidth / 2,
     right: 0,
-    backgroundColor: '#d0d0d0',
+    backgroundColor: 'grey',
     padding: 20,
     width: screenWidth,
   },
@@ -120,12 +121,18 @@ const styles = StyleSheet.create({
     width: 48,
     margin: 10,
     borderRadius: 50,
-    
+
   },
   bottomBalancePanel: {
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: 20,
+  },
+  positiveBalance: {
+    fontSize: 18, fontWeight: 'bold', color: 'green'
+  },
+  negativeBalance: {
+    fontSize: 18, fontWeight: 'bold', color: 'red'
   }
 });
 
