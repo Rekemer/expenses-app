@@ -1,4 +1,4 @@
-import React, { useEffect, version } from "react";
+import React, { Children, createContext, useEffect, version } from "react";
 import { View, Text, StyleSheet, FlatList, SafeAreaView, RefreshControl, ScrollView } from "react-native";
 import { useState, useRef } from "react";
 import PieChart from "react-native-pie-chart";
@@ -9,6 +9,7 @@ import { userId } from "../User";
 
 const screenWidth = Dimensions.get("window").width;
 // const [sorted, setSorted] = useState();
+const HomeScreenContext = createContext();
 
 const categoryColors = [
   { category: "Food", color: "#3388ff" },
@@ -95,6 +96,18 @@ const calculateCategorySum = (expenses, categoryColors) => {
 
   return categorySumArray;
 };
+
+export const HomeScreenProvider = ({children}) => {
+  const [storageUpdated, setStorageUpdated] = useState(false);
+
+  return (
+    <HomeScreenContext.Provider
+    value={{ storageUpdated, setStorageUpdated }}
+    >
+      {children}  
+    </HomeScreenContext.Provider>
+  );
+}
 
 export const Home = ({ navigation }) => {
   const [emptyCategory, setEmptyCategory] = useState([
