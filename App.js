@@ -9,7 +9,7 @@ import { CalculatorProvider } from './Calculator';
 import { CalendarTimeProvider } from './RandomtCalendarTime';
 import { CalendarProvider } from './Calendar';
 import { Alert } from 'react-native';
-import { IncomeScreen, ExpenseScreen, CalculatorScreen, CalendarScreen } from './Screens';
+import { IncomeScreen, ExpenseScreen, CalculatorScreen, CalendarScreen,ApiScreen } from './Screens';
 
 function Calculator() {
   const Tab = createBottomTabNavigator();
@@ -31,9 +31,17 @@ function Calculator() {
               <Tab.Screen name="Income" component={IncomeScreen} options={{ tabBarButton: () => null }} />
               <Tab.Screen name="Calculator" component={CalculatorScreen} options={{ tabBarButton: () => null }} />
               <Tab.Screen name="Calendar" component={CalendarScreen} options={{
+                tabBarIcon: () => (
+                  <Image
+                  source={require('./assets/date.png')}
+                  style={{ width: 24, height: 24 }}
+                  />
+                ),
+              }} />
+              <Tab.Screen name="Api" component={ApiScreen}options={{
           tabBarIcon: () => (
             <Image
-              source={require('./assets/date.png')}
+              source={require('./assets/exchange-rate.png')}
               style={{ width: 24, height: 24 }}
             />
           ),

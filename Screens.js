@@ -4,8 +4,8 @@ import { CATEGORY } from './Categories';
 import { userId } from './User';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCalculator } from './Calculator';
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image }
+import React, { useState,useEffect } from 'react';
+import {  FlatList, Text, View, TouchableOpacity, Image }
   from 'react-native';
 import { styles } from './MainStyle';
 const Button = ({ onPress, text }) => (
@@ -98,6 +98,50 @@ export function IncomeScreen({ navigation }) {
       </View>
     </View>
   </View>)
+}
+
+export function ApiScreen({navigator})
+{
+  const [exchangeRates, setExchangeRates] = useState([]);
+
+  useEffect(() => {
+    // Fetch exchange rates from an API
+    const fetchExchangeRates = async () => {
+      try {
+        const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
+        const data = await response.json();
+        setExchangeRates(Object.entries(data.rates));
+      } catch (error) {
+        console.error('Error fetching exchange rates:', error);
+      }
+    };
+
+    fetchExchangeRates();
+  }, []);
+
+  const renderExchangeRate = ({ item }) => (
+    <View style={{flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+    width: '100%',}}>
+      <Text>{item[0]}:</Text>
+      <Text>{item[1]}</Text>
+    </View>
+  );
+
+  return (
+    <View style={styles.container}>
+      <FlatList
+        data={exchangeRates}
+        renderItem={renderExchangeRate}
+        keyExtractor={(item) => item[0]}
+      />
+    </View>
+  );
 }
 
 export function CalendarScreen({ navigator }) {
