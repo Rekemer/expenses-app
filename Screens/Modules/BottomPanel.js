@@ -38,16 +38,17 @@ const BottomPanelToggle = ({ navigation, incomebalance }) => {
           style={[styles.bottomPanel, { transform: [{ translateY: panelTranslateY }] }]}>
           {/* Close bottom panel button */}
           <TouchableOpacity onPress={togglePanel} style={[{ alignSelf: 'center', height: 20, width: 100 }]}>
-            <Image style={[{ height: 12, width: 20, resizeMode: 'stretch', alignSelf: 'center' }]} source={require('../../assets/ArrowDown.png')} />
+            <Image style={[{ height: 12, width: 20, tintColor: '#424242',resizeMode: 'stretch', alignSelf: 'center' }]} source={require('../../assets/ArrowDown.png')} />
           </TouchableOpacity>
 
           {/* Content of the bottom panel*/}
           <SafeAreaView style={styles.bottomButtonWrapper}>
             <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator', { isExpense: false })}>
-              <Image style={[styles.bottomButtonImage, { resizeMode: 'stretch', position: 'absolute'}]} source={require('../../assets/Add button.png')}></Image>
+              <Image style={[styles.bottomButtonImage, { resizeMode: 'stretch', position: 'absolute'}]} 
+              source={require('../../assets/Add button.png')}></Image>
             </TouchableOpacity>
             <View style={styles.bottomBalancePanel}>
-              <Text style={[ { fontSize: 18, fontWeight: 'bold', color: 'whitesmoke' }]}>Income Balance: </Text>
+              <Text style={[ { fontSize: 18, fontWeight: 'bold', color: '#424242' }]}>Income Balance: </Text>
               {incomebalance >= 0 ? <Text style={styles.positiveBalance}>€{incomebalance}</Text> : <Text style={styles.negativeBalance}>€{incomebalance}</Text>}
             </View>
             <TouchableOpacity style={styles.bottomPanelButton} onPress={() => navigation.navigate('Calculator', { isExpense: true })}>
@@ -92,9 +93,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: -screenWidth / 2,
     right: 0,
-    backgroundColor: 'grey',
+    backgroundColor: '#dddddd',
     padding: 20,
     width: screenWidth,
+    borderWidth:2,
+    borderColor: '#424242',
+    borderBottomWidth: 0,
   },
   panelText: {
     fontSize: 18,
@@ -128,7 +132,6 @@ const styles = StyleSheet.create({
   bottomButtonImage: {
     height: 48,
     width: 48,
-    
   },
   bottomBalancePanel: {
     alignItems: 'center',
