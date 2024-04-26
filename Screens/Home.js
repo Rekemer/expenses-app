@@ -174,7 +174,7 @@ export const Home = ({ navigation }) => {
 
       {<Chart categories={filteredData.length > 0 ? filteredData : [{ category: "None", color: "grey", sum: 1 }]}></Chart>}
       {filteredData.length > 0 ? (<FlatList
-        style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, backgroundColor: '#666666', }]}
+        style={[{ width: screenWidth, height: 400, borderTopColor: 'grey', borderTopWidth: 2, backgroundColor: '#eee', }]}
         renderItem={({ item }) => <Item title={item.category} color={item.color} sum={item.sum.toFixed(2)} keyExtractor={item => item.category} />}
         data={filteredData}
       />) : (<View style={styles.emptyPanel}><Text style={styles.emptyText}>No expenses currently</Text></View>)}
@@ -206,7 +206,7 @@ const Item = ({ title, color, sum }) => {
   return (
     <View style={styles.legendItem}>
       <View style={[styles.legendCircle, { backgroundColor: color }]}></View>
-      <Text style={[{ fontSize: 20, color: 'whitesmoke' }]}>{title}: €{sum}</Text>
+      <Text style={[{ fontSize: 20, color: 'black' }]}>{title}: €{sum}</Text>
 
     </View>
   )
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     // justifyContent: 'flex-end',
     gap: 5,
-    backgroundColor: "#444444",
+    backgroundColor: "#dddddd",
   },
   title: {
     fontSize: 24,
@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     borderRadius: 4,
-    backgroundColor: "#aaaaaa",
+    backgroundColor: "#fff",
     width: 270,
     height: 60,
   },

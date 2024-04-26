@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
   },
   bottomPanel: {
     flex: 1,
+    height: 200,
     flexDirection: 'column',
     borderTopRightRadius: 15,
     borderTopLeftRadius: 15,
@@ -115,6 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-evenly',
+    alignItems: 'center'
   },
   bottomPanelButton: {
     height: 48,
