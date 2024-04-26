@@ -279,8 +279,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   emptyText: {
-    color: 'whitesmoke',
-    fontSize: 16,
+    color: '#999',
+    fontSize: 18,
     fontWeight: '600'
   }
 });
